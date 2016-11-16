@@ -66,10 +66,7 @@
 \begin{document}
 \maketitle
 
-\section{Fermi interaction}
-
-
-\section{Weak interaction}
+\section{u+e^-\to d+\nu_e}
 
 \begin{figure}[H]
 \centering
@@ -83,7 +80,7 @@
 \fmf{fermion,label=$u(p_1\sigma_1)$}{i1,v1}
 \fmf{fermion,label=$d(q_1\sigma_1)$}{v1,o1}
 \fmf{fermion,label=$e(p_2\sigma_2)$}{i2,v2}
-\fmf{fermion,label=$\bar{\nu_e}(q_2\sigma_2)$}{v2,o2}
+\fmf{fermion,label=$\nu_e(q_2\sigma_2)$}{v2,o2}
 \fmf{photon,label=$W(k)$}{v1,v2}
 \end{fmfgraph*}
 \end{fmffile}
@@ -92,16 +89,41 @@
 
 Élément de matrice :
 \begin{equation}
-i\mathcal{M} = \dfrac{-ig_W}{2\sqrt{2}}  V_{ud} u(p_1) \gamma^\mu (1-\gamma^5) \bar{d}(q_1) \times \dfrac{-i(g_{\mu\nu}-p_{\mu}p_{\nu}/m_W^2)}{(p_1+p_2)^2-m_W^2} \times  \dfrac{-ig_W}{2\sqrt{2}}  e(p_2) \gamma^\mu (1-\gamma^5 \bar{\nu}(q_2)
+-i\mathcal{M} = \dfrac{-ig_W}{2\sqrt{2}}  V_{ud} \bar{d}(q_1) \gamma^\mu (1-\gamma^5) u(p_1) \times \dfrac{-i(g_{\mu\nu}-p_{\mu}p_{\nu}/m_W^2)}{(p_1+p_2)^2-m_W^2} \times  \dfrac{-ig_W}{2\sqrt{2}} \bar{\nu}(q_2)  \gamma^\mu (1-\gamma^5 e(p_2)
 \end{equation}
 
 \begin{multline}
-\mathcal{M} = V_{ud}\dfrac{g_W^2}{8}   \dfrac{1}{(p_1+p_2)^2-m_W^2} \left [ u(p_1) \gamma^\mu (1-\gamma^5) \bar{d}(q_1) e(p_2) \gamma_\mu (1-\gamma^5) \bar{\nu}(q_2) \right. \\  \left. - u(p_1) \gamma^\mu (1-\gamma^5) \bar{d}(q_1)  e(p_2) \gamma_\nu (1-\gamma^5) \bar{\nu}(q_2) p_{\mu}p^{\nu}  /m_W^2 \right ] 
+\mathcal{M} = V_{ud}\dfrac{g_W^2}{8}   \dfrac{1}{(p_1+p_2)^2-m_W^2} \left [ \bar{d}(q_1) \gamma^\mu (1-\gamma^5)u(p_1)  \bar{\nu}(q_2) \gamma_\mu (1-\gamma^5) e(p_2) \right. \\  \left. - \bar{d}(q_1)\gamma^\mu (1-\gamma^5) u(p_1) \bar{\nu}(q_2) \gamma_\nu (1-\gamma^5)  e(p_2) p_{\mu}p^{\nu}  /m_W^2 \right ] 
 \end{multline}
+
+\subsection{Approximation de Fermi}
+
+Si $p\ll m_W$ :
+
+\begin{equation}
+\mathcal{M} \simeq -V_{ud}\dfrac{g_W^2}{8}   \dfrac{1}{m_W^2} \left [  \bar{d}(q_1) \gamma^\mu (1-\gamma^5) u(p_1) \bar{\nu}(q_2) \gamma_\mu (1-\gamma^5) e(p_2) \right ] 
+\end{equation}
+
+On note que, puisque $\bar{d} = d^\dagger \gamma^0$
+\begin{equation}
+(\bar{d}\gamma^\mu(1-\gamma^5)u)^{*} = u^\dagger (1-\gamma^5)^{\dagger}(\gamma^\mu)^{\dagger} (\gamma^0)^\dagger d
+\end{equation}
+
+Et de plus $(\gamma^\mu)^\dagger = \gamma^0 \gamma^\mu \gamma^0$ et $(\gamma^0)^2 = 1$ :
+\begin{align}
+u^\dagger (1-\gamma^5)^{\dagger}(\gamma^\mu)^{\dagger} (\gamma^0)^\dagger d & = u^\dagger (1-\gamma^5)^{\dagger} \gamma^0 \gamma^\mu d\\
+& = u^\dagger \gamma^0 \gamma^0 (1-\gamma^5)^{\dagger} \gamma^0 \gamma^\mu d\\
+& = \bar{u} \gamma^0 (1-\gamma^5)^{\dagger} \gamma^0 \gamma^\mu d
+\end{align}
+
+Si bien que pour $\Gamma^\mu \equiv \gamma^{\mu} (1-\gamma^5)$
+\begin{equation}
+|\mathcal{M}|^2 = \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 [\bar{d} \Gamma^{\mu} u] [\bar{u} \bar{\Gamma}^{\mu} d] [\bar{\nu} \bar{\Gamma}_\mu e] [\bar{e} \bar{\Gamma}_\mu \nu]
+\end{equation}
 
 Et 
 \begin{equation}
-\sum_{pol} |\mathcal{M}|^2 = \dfrac{1}{2} \left ( |V_{ud}|\dfrac{g_W^2}{8} \right) ^2\dfrac{1}{\left [(p_1+p_2)^2-m_W^2 \right]^2}
+\sum_{pol} |\mathcal{M}|^2 = \dfrac{1}{2} \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2
 \end{equation}
 
 Section-efficace différentielle :
