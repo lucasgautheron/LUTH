@@ -34,6 +34,7 @@
 \usepackage{feynmp}
 \usepackage{feynmp-auto}
 \usepackage{float}
+\usepackage{slashed}
 % These packages are all incorporated in the memoir class to one degree or another...
 
 %%% HEADERS & FOOTERS
@@ -66,7 +67,7 @@
 \begin{document}
 \maketitle
 
-\section{u+e^-\to d+\nu_e}
+\section{$u+e^-\to d+\nu_e$}
 
 \begin{figure}[H]
 \centering
@@ -118,13 +119,20 @@ u^\dagger (1-\gamma^5)^{\dagger}(\gamma^\mu)^{\dagger} (\gamma^0)^\dagger d & = 
 
 Si bien que pour $\Gamma^\mu \equiv \gamma^{\mu} (1-\gamma^5)$
 \begin{equation}
-|\mathcal{M}|^2 = \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 [\bar{d} \Gamma^{\mu} u] [\bar{u} \bar{\Gamma}^{\mu} d] [\bar{\nu} \bar{\Gamma}_\mu e] [\bar{e} \bar{\Gamma}_\mu \nu]
+|\mathcal{M}|^2 = \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 [\bar{d} \Gamma^{\mu} u] [\bar{\nu} \bar{\Gamma}_\mu e] [\bar{u} \bar{\Gamma}^{\nu} d]  [\bar{e} \bar{\Gamma}_\nu \nu]
 \end{equation}
 
-Et 
+Et, en sommant sur les polarisations, et en négligeant les masses ($\lesssim $ eV) :
 \begin{equation}
-\sum_{pol} |\mathcal{M}|^2 = \dfrac{1}{2} \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2
+\dfrac{1}{4}\sum_{pol} |\mathcal{M}|^2 = \dfrac{1}{4} \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 \mathrm{Tr} \left [ \gamma^{\mu}(1-\gamma^5) \slashed{p_1} \gamma^{\nu}(1-\gamma^5)\slashed{q_1} \right ] \cdot \mathrm{Tr} \left [ \gamma^{\mu}(1-\gamma^5) \slashed{p_2} \gamma^{\nu}(1-\gamma^5)\slashed{q_2} \right ]
 \end{equation}
+
+Calcul de la trace :
+
+\begin{equation}
+\mathrm{Tr} \left [ \gamma^{\mu}(1-\gamma^5) \slashed{p_1} \gamma^{\nu}(1-\gamma^5)\slashed{q_1} \right ] = 
+\end{equation}
+
 
 Section-efficace différentielle :
 \begin{equation}
