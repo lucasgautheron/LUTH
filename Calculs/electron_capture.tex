@@ -85,12 +85,12 @@
 \fmf{photon,label=$W(k)$}{v1,v2}
 \end{fmfgraph*}
 \end{fmffile}
-\caption{$k = p_1+p_2=q_1+q_2$}
+\caption{$k = p_1-p_2=q_1-q_2$}
 \end{figure}
 
 Élément de matrice :
 \begin{equation}
--i\mathcal{M} = \dfrac{-ig_W}{2\sqrt{2}}  V_{ud} \bar{d}(q_1) \gamma^\mu (1-\gamma^5) u(p_1) \times \dfrac{-i(g_{\mu\nu}-p_{\mu}p_{\nu}/m_W^2)}{(p_1+p_2)^2-m_W^2} \times  \dfrac{-ig_W}{2\sqrt{2}} \bar{\nu}(q_2)  \gamma^\mu (1-\gamma^5 e(p_2)
+-i\mathcal{M} = \dfrac{-ig_W}{2\sqrt{2}}  V_{ud} \bar{d}(q_1) \gamma^\mu (1-\gamma^5) u(p_1) \times \dfrac{-i(g_{\mu\nu}-k_{\mu}k_{\nu}/m_W^2)}{(k_1+k_2)^2-m_W^2} \times  \dfrac{-ig_W}{2\sqrt{2}} \bar{\nu}(q_2)  \gamma^\mu (1-\gamma^5 e(p_2)
 \end{equation}
 
 \begin{multline}
@@ -117,22 +117,48 @@ u^\dagger (1-\gamma^5)^{\dagger}(\gamma^\mu)^{\dagger} (\gamma^0)^\dagger d & = 
 & = \bar{u} \gamma^0 (1-\gamma^5)^{\dagger} \gamma^0 \gamma^\mu d
 \end{align}
 
-Si bien que pour $\Gamma^\mu \equiv \gamma^{\mu} (1-\gamma^5)$
+%Si bien que pour $\Gamma^\mu \equiv \gamma^{\mu} (1-\gamma^5)$
+%\begin{equation}
+%|\mathcal{M}|^2 = \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 [\bar{d} \Gamma^{\mu} u] \bar{\nu} \bar{\Gamma}_\mu e] [\bar{u} \bar{\Gamma}^{\nu} d]  [\bar{e} \bar{\Gamma}_\nu \nu]
+%\end{equation}
+
+On peut tenir compte de la structure interne du proton et du neutron via les facteurs de forme $g_A$ et $g_V$ :
+
 \begin{equation}
-|\mathcal{M}|^2 = \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 [\bar{d} \Gamma^{\mu} u] [\bar{\nu} \bar{\Gamma}_\mu e] [\bar{u} \bar{\Gamma}^{\nu} d]  [\bar{e} \bar{\Gamma}_\nu \nu]
+\mathcal{M} \simeq -V_{ud}\dfrac{g_W^2}{8}   \dfrac{1}{m_W^2} \left [  \bar{n}(q_1) \gamma^\mu (g_V-g_A\gamma^5) p(p_1) \bar{\nu}(q_2) \gamma_\mu (1-\gamma^5) e(p_2) \right ] 
 \end{equation}
 
-Et, en sommant sur les polarisations, et en négligeant les masses ($\lesssim $ eV) :
-\begin{equation}
-\dfrac{1}{4}\sum_{pol} |\mathcal{M}|^2 = \dfrac{1}{4} \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 \mathrm{Tr} \left [ \gamma^{\mu}(1-\gamma^5) \slashed{p_1} \gamma^{\nu}(1-\gamma^5)\slashed{q_1} \right ] \cdot \mathrm{Tr} \left [ \gamma^{\mu}(1-\gamma^5) \slashed{p_2} \gamma^{\nu}(1-\gamma^5)\slashed{q_2} \right ]
-\end{equation}
+Et, en sommant sur les polarisations, et en négligeant $m_\nu$ :
+\begin{multline}
+\dfrac{1}{4}\sum_{pol} |\mathcal{M}|^2 = \dfrac{1}{4} \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 \mathrm{Tr} \left [ (\slashed{q_1}+m_n)\gamma^\mu (g_V+g_A \gamma^5)(\slashed{p_1}+m_p)\gamma^\nu (g_V+g_A \gamma^5)\right] \\ \cdot \mathrm{Tr} \left [ (\slashed{p_2}+m_e)\gamma_{\mu}(1-\gamma_5) \slashed{q_2}\gamma_\nu (1-\gamma_5) \right ]
+\end{multline}
 
-Calcul de la trace :
+Calcul de la trace (1), sachant que les termes suivants s'annulent :
+
+\begin{itemize}
+\item Termes avec un nombre impair de $\gamma^{..}$
+\item Termes avec un $\gamma^5$ et un nombre $\leq$ 3 de $\gamma^{..}$.
+\end{itemize}
+
 
 \begin{align}
-\mathrm{Tr} \left [ \gamma^{\mu}(1-\gamma^5) \slashed{p_1} \gamma^{\nu}(1-\gamma^5)\slashed{q_1} \right ] & = ...
+\mathrm{Tr} \left [ (\slashed{q_1}+m_n)\gamma^\mu (g_V+g_A \gamma^5)(\slashed{p_1}+m_p)\gamma^\nu (g_V+g_A \gamma^5)\right] & =  \\
+g_V^2 p_{1\alpha}q_{2\beta}\textrm{Tr} (\gamma^{\alpha}\gamma^\mu \gamma^{\beta} \gamma^{\nu})
+& + \\
+-4ig_Vg_A\epsilon^{\alpha\mu\beta\nu} q_{1\alpha} p_{1\beta} & + \\
+-4ig_Vg_A\epsilon^{\beta\nu\alpha\mu} q_{1\beta} p_{1\alpha} & + \\
+g_A^2 p_{1\alpha}q_{2\beta}\textrm{Tr} (\gamma^{\alpha}\gamma^\mu \gamma^{\beta} \gamma^{\nu}) & + \\
+4 m_n m_p g_V^2 g^{\mu\nu} & + \\
+- 4 m_n m_p g_A^2 g^{\mu\nu}
 \end{align}
 
+Et 
+\begin{align}
+\mathrm{Tr} \left [ (\slashed{p_2}+m_e)\gamma_{\mu}(1-\gamma_5) \slashed{q_2}\gamma_\nu (1-\gamma_5) \right ] & = \\
+2p_{2}^{\alpha} q_{2}^\beta \textrm{Tr} & + \\
+-4i p_{2}^{\alpha} q_{2}^\beta \epsilon_{\alpha\mu\beta\nu} & + \\
+-4i p_{2}^{\beta} q_{2}^\alpha \epsilon_{\alpha\nu\beta\mu}
+\end{align}
 
 Section-efficace différentielle :
 \begin{equation}
