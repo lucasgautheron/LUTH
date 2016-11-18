@@ -149,32 +149,52 @@ g_V^2 p_{1\alpha}q_{2\beta}\textrm{Tr} (\gamma^{\alpha}\gamma^\mu \gamma^{\beta}
 -4ig_Vg_A\epsilon^{\beta\nu\alpha\mu} q_{1\beta} p_{1\alpha} & + \\
 g_A^2 p_{1\alpha}q_{2\beta}\textrm{Tr} (\gamma^{\alpha}\gamma^\mu \gamma^{\beta} \gamma^{\nu}) & + \\
 4 m_n m_p g_V^2 g^{\mu\nu} & + \\
-- 4 m_n m_p g_A^2 g^{\mu\nu}
+\pm 4 m_n m_p g_A^2 g^{\mu\nu}
 \end{align}
 
 Donc
-\begin{align}
+\begin{align*}
 \mathrm{Tr} \left [ (\slashed{q_1}+m_n)\gamma^\mu (g_V+g_A \gamma^5)(\slashed{p_1}+m_p)\gamma^\nu (g_V+g_A \gamma^5)\right] & =  \\
-(g_V^2+g_A^2) p_{1\alpha} q_{2\beta} \textrm{Tr} (\gamma^{\alpha}\gamma^\mu \gamma^{\beta} \gamma^{\nu}) & + \\
+(g_V^2+g_A^2) p_{1\alpha} q_{1\beta} \textrm{Tr} (\gamma^{\alpha}\gamma^\mu \gamma^{\beta} \gamma^{\nu}) & + \\
 -8ig_Vg_A \epsilon^{\alpha\mu\beta\nu} q_{1\alpha} p_{1\beta} & + \\
-4 m_n m_p (g_V^2-g_A^2) g^{\mu\nu}
-\end{align}
+4 m_n m_p (g_V^2\pm g_A^2) g^{\mu\nu}
+\end{align*}
+
+Et finalement :
+\begin{multline}
+\mathrm{Tr} \left [ (\slashed{q_1}+m_n)\gamma^\mu (g_V+g_A \gamma^5)(\slashed{p_1}+m_p)\gamma^\nu (g_V+g_A \gamma^5)\right] = \\
+8 (g_V^2+g_A^2) \left [ p_1^\mu q_1^\nu + p_1^\nu q_1^\mu - (p_1\cdot q_1)g^{\mu\nu} \right ] -
+8ig_Vg_A \epsilon^{\alpha\mu\beta\nu} q_{1\alpha} p_{1\beta} +
+4 m_n m_p (g_V^2\pm g_A^2) g^{\mu\nu}
+\end{multline}
 
 Et 
-\begin{align}
+\begin{align*}
 \mathrm{Tr} \left [ (\slashed{p_2}+m_e)\gamma_{\mu}(1-\gamma_5) \slashed{q_2}\gamma_\nu (1-\gamma_5) \right ] & = \\
 2p_{2}^{\alpha} q_{2}^\beta \textrm{Tr}(\gamma_\alpha\gamma_\mu\gamma_\beta\gamma_\nu) & + \\
 -4i p_{2}^{\alpha} q_{2}^\beta \epsilon_{\alpha\mu\beta\nu} & + \\
 -4i p_{2}^{\beta} q_{2}^\alpha \epsilon_{\alpha\nu\beta\mu}
-\end{align}
+\end{align*}
 
 Soit 
-\begin{align}
+\begin{align*}
 \mathrm{Tr} \left [ (\slashed{p_2}+m_e)\gamma_{\mu}(1-\gamma_5) \slashed{q_2}\gamma_\nu (1-\gamma_5) \right ] & = \\
 2p_{2}^{\alpha} q_{2}^\beta \textrm{Tr}(\gamma_\alpha\gamma_\mu\gamma_\beta\gamma_\nu) & + \\
 -8i p_{2}^{\alpha} q_{2}^\beta \epsilon_{\alpha\mu\beta\nu}
-\end{align}
+\end{align*}
 
+D'où :
+\begin{multline}
+\mathrm{Tr} \left [ (\slashed{p_2}+m_e)\gamma_{\mu}(1-\gamma_5) \slashed{q_2}\gamma_\nu (1-\gamma_5) \right ] = \\
+8\left [  p_2^\mu q_1^\nu + p_2^\nu q_2^\mu - (p_2\cdot q_2)g^{\mu\nu}\right ]
+-8i p_{2}^{\alpha} q_{2}^\beta \epsilon_{\alpha\mu\beta\nu}
+\end{multline}
+
+Le produit des traces vaut :
+\begin{multline}
+\mathrm{Tr} \cdot \mathrm{Tr} = \
+64 \left [ (g_A-g_V)^2(p\odot p')(q \odot q') + (g_A+g_V)^2(p\odot q')(p'\odot q) - (g_V^2-g_A^2)m_n m_p (p'\odot q')]\right ]
+\end{multline}
 
 Section-efficace différentielle :
 \begin{equation}
