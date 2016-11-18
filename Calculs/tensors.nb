@@ -1,0 +1,400 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     12631,        392]
+NotebookOptionsPosition[     11394,        348]
+NotebookOutlinePosition[     11732,        363]
+CellTagsIndexPosition[     11689,        360]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.688464186517404*^9, 3.6884642305088167`*^9}, {
+  3.688464635577928*^9, 3.6884646394524717`*^9}, {3.688466058579212*^9, 
+  3.6884660590117073`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"<<", " ", "tensorial.m"}]], "Input",
+ CellChangeTimes->{{3.68846557666444*^9, 3.688465579588764*^9}, 
+   3.6884660624291067`*^9}],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"x", "[", "p_", "]"}], " ", "=", " ", 
+    RowBox[{"Tensor", "[", 
+     RowBox[{"x", ",", 
+      RowBox[{"{", "Void", "}"}], ",", 
+      RowBox[{"{", "p", "}"}]}], "]"}]}], ";"}],
+  FontFamily->"Courier New",
+  FontSize->10]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"GM", " ", "=", 
+    RowBox[{"{", " ", 
+     RowBox[{
+      RowBox[{"{", "  ", 
+       RowBox[{
+       "1", "    ", ",", "   ", "0", "     ", ",", " ", "0", "     ", ",", 
+        "      ", "0"}], " ", "}"}], ",", "\n", "\t\t         ", 
+      RowBox[{"{", "  ", 
+       RowBox[{"0", "    ", ",", "  ", 
+        RowBox[{"-", "1"}], "   ", ",", " ", "0", "      ", ",", "     ", 
+        "0"}], "  ", "}"}], ",", "\n", "  \t\t       ", 
+      RowBox[{"{", "  ", 
+       RowBox[{"0", "    ", ",", "   ", "0", "     ", ",", " ", 
+        RowBox[{"-", "1"}], "    ", ",", "    ", "0"}], "  ", "}"}], ",", 
+      "\n", "\t\t         ", 
+      RowBox[{"{", "  ", 
+       RowBox[{
+       "0", "    ", ",", "    ", "0", "    ", ",", "   ", "0", "     ", ",", 
+        "  ", 
+        RowBox[{"-", "1"}]}], " ", "}"}]}], " ", "}"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{"SetSystem", "[", 
+  RowBox[{"x", " ", ",", "g", ",", " ", "GM"}], " ", "]"}]}], "Input",
+ CellChangeTimes->{{3.688464236926008*^9, 3.688464237226596*^9}, 
+   3.688464614341278*^9}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Set","setraw",
+   "\"Cannot assign to raw object \\!\\(\\*RowBox[{\\\"1\\\"}]\\).\"",2,6,1,
+   22314608498634176153,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.688465915950552*^9}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Set","setraw",
+   "\"Cannot assign to raw object \\!\\(\\*RowBox[{\\\"0\\\"}]\\).\"",2,6,2,
+   22314608498634176153,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.688465916010193*^9}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Set","setraw",
+   "\"Cannot assign to raw object \\!\\(\\*RowBox[{\\\"0\\\"}]\\).\"",2,6,3,
+   22314608498634176153,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.68846591601607*^9}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General","stop",
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Set\\\", \\\"::\\\", \\\
+\"setraw\\\"}], \\\"MessageName\\\"]\\) will be suppressed during this \
+calculation.\"",2,6,4,22314608498634176153,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.6884659160223503`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ExpandIndex", "[", 
+  RowBox[{
+   RowBox[{"Tensor", "[", 
+    RowBox[{"\[Epsilon]", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "j", ",", "k"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Void", ",", "Void", ",", "Void"}], "}"}]}], "]"}], " ", ",", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "j", ",", "k"}], "}"}]}], "  ", "]"}]], "Input"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Table","iterb",
+   "\"Iterator \\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"i\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"tensorial`Private`NDim\\\"}], \\\"}\\\"}]\\) does \
+not have appropriate bounds.\"",2,2,1,22314606630782064039,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{{3.6884656137160997`*^9, 3.688465626197308*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Table", "[", 
+  RowBox[{
+   TemplateBox[{"\[Epsilon]",InterpretationBox[
+      RowBox[{"i", "\[InvisibleSpace]", "j", "\[InvisibleSpace]", "k"}], 
+      SequenceForm[$CellContext`i, $CellContext`j, $CellContext`k], Editable -> 
+      False],InterpretationBox[
+      RowBox[{
+       "\"  \"", "\[InvisibleSpace]", "\"  \"", "\[InvisibleSpace]", 
+        "\"  \""}], 
+      SequenceForm["  ", "  ", "  "], Editable -> False]},
+    "Subsuperscript"], ",", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "1", ",", "tensorial`Private`NDim"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"j", ",", "1", ",", "tensorial`Private`NDim"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"k", ",", "1", ",", "tensorial`Private`NDim"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{{3.688465613717619*^9, 3.688465626204689*^9}}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"q", "[", "x_", "]"}], " ", "=", " ", 
+   RowBox[{"Tensor", "[", 
+    RowBox[{"q", ",", " ", 
+     RowBox[{"{", "Void", "}"}], ",", " ", 
+     RowBox[{"{", "x", "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.688464763308847*^9, 3.688464772070094*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"pp", "[", "x_", "]"}], " ", "=", " ", 
+   RowBox[{"Tensor", "[", 
+    RowBox[{"pp", ",", 
+     RowBox[{"{", "x", "}"}], ",", " ", 
+     RowBox[{"{", "Void", "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.688464777222282*^9, 3.688464791755579*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"qp", "[", "x_", "]"}], " ", "=", " ", 
+   RowBox[{"Tensor", "[", 
+    RowBox[{"qp", ",", " ", 
+     RowBox[{"{", "x", "}"}], ",", " ", 
+     RowBox[{"{", "Void", "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.688464793766801*^9, 3.6884648053409557`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p", "[", 
+   RowBox[{"{", "i", "}"}], "]"}], " ", "*", " ", 
+  RowBox[{"q", "[", 
+   RowBox[{"{", "j", "}"}], "]"}], " ", "*", " ", 
+  RowBox[{"Tensor", "[", 
+   RowBox[{"\[Epsilon]", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "j", ",", "k", ",", "l"}], "}"}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"Void", ",", " ", "Void", ",", " ", "Void", ",", " ", "Void"}], 
+     "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6884648153077297`*^9, 3.68846482534734*^9}, {
+  3.688464952007724*^9, 3.688465012099743*^9}, {3.688465164285775*^9, 
+  3.688465166169355*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"V", " ", "=", " ", 
+  RowBox[{
+   RowBox[{"Tensor", "[", 
+    RowBox[{"p", ",", 
+     RowBox[{"{", "Void", "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"{", "i", "}"}], "}"}]}], "]"}], " ", 
+   RowBox[{"Tensor", "[", 
+    RowBox[{"q", ",", 
+     RowBox[{"{", "Void", "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"{", "j", "}"}], "}"}]}], "]"}], " ", 
+   RowBox[{"Tensor", "[", 
+    RowBox[{"\[Epsilon]", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "j", ",", "k", ",", "l"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Void", ",", "Void", ",", "Void", ",", "Void"}], "}"}]}], 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.688465481702168*^9, 3.688465490736281*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Tensor", "[", 
+   RowBox[{"p", ",", 
+    RowBox[{"{", "Void", "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", "i", "}"}], "}"}]}], "]"}], " ", 
+  RowBox[{"Tensor", "[", 
+   RowBox[{"q", ",", 
+    RowBox[{"{", "Void", "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", "j", "}"}], "}"}]}], "]"}], " ", 
+  RowBox[{"Tensor", "[", 
+   RowBox[{"\[Epsilon]", ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "j", ",", "k", ",", "l"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"Void", ",", "Void", ",", "Void", ",", "Void"}], "}"}]}], 
+   "]"}]}]], "Output",
+ CellChangeTimes->{{3.6884654851315327`*^9, 3.6884654936524973`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ExpandIndex", "[", 
+  RowBox[{
+   RowBox[{"Tensor", "[", 
+    RowBox[{"\[Epsilon]", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "j", ",", "k"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Void", ",", "Void", ",", "Void"}], "}"}]}], "]"}], " ", ",", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "j", ",", "k"}], "}"}]}], "  ", "]"}]], "Input",
+ CellChangeTimes->{{3.688465495114985*^9, 3.688465511980934*^9}, {
+  3.688465560983355*^9, 3.6884655623625402`*^9}}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Table","iterb",
+   "\"Iterator \\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"i\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"tensorial`Private`NDim\\\"}], \\\"}\\\"}]\\) does \
+not have appropriate bounds.\"",2,2,1,22314606355489108919,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.688465587633438*^9}],
+
+Cell[BoxData[
+ RowBox[{"Table", "[", 
+  RowBox[{
+   TemplateBox[{"\[Epsilon]",InterpretationBox[
+      RowBox[{"i", "\[InvisibleSpace]", "j", "\[InvisibleSpace]", "k"}], 
+      SequenceForm[$CellContext`i, $CellContext`j, $CellContext`k], Editable -> 
+      False],InterpretationBox[
+      RowBox[{
+       "\"  \"", "\[InvisibleSpace]", "\"  \"", "\[InvisibleSpace]", 
+        "\"  \""}], 
+      SequenceForm["  ", "  ", "  "], Editable -> False]},
+    "Subsuperscript"], ",", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "1", ",", "tensorial`Private`NDim"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"j", ",", "1", ",", "tensorial`Private`NDim"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"k", ",", "1", ",", "tensorial`Private`NDim"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{{3.6884655634917107`*^9, 3.688465587672551*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ExpandIndex", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Tensor", "[", 
+     RowBox[{"p", ",", 
+      RowBox[{"{", "Void", "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"{", "i", "}"}], "}"}]}], "]"}], " ", 
+    RowBox[{"Tensor", "[", 
+     RowBox[{"q", ",", 
+      RowBox[{"{", "Void", "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"{", "j", "}"}], "}"}]}], "]"}], " ", 
+    RowBox[{"Tensor", "[", 
+     RowBox[{"\[Epsilon]", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "j", ",", "k", ",", "l"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"Void", ",", "Void", ",", "Void", ",", "Void"}], "}"}]}], 
+     "]"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"k", ",", "l"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"Void", ",", "Void"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{3.6884655335082684`*^9}],
+
+Cell[BoxData[
+ RowBox[{"ExpandIndex", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Tensor", "[", 
+     RowBox[{"p", ",", 
+      RowBox[{"{", "Void", "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"{", "i", "}"}], "}"}]}], "]"}], " ", 
+    RowBox[{"Tensor", "[", 
+     RowBox[{"q", ",", 
+      RowBox[{"{", "Void", "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"{", "j", "}"}], "}"}]}], "]"}], " ", 
+    RowBox[{"Tensor", "[", 
+     RowBox[{"\[Epsilon]", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "j", ",", "k", ",", "l"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"Void", ",", "Void", ",", "Void", ",", "Void"}], "}"}]}], 
+     "]"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"k", ",", "l"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"Void", ",", "Void"}], "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.688465534776267*^9}]
+}, Open  ]]
+},
+WindowSize->{1535, 876},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"11.0 for Linux x86 (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 196, 3, 32, "Input"],
+Cell[757, 25, 153, 3, 32, "Input"],
+Cell[913, 30, 295, 10, 28, "Input"],
+Cell[CellGroupData[{
+Cell[1233, 44, 1084, 26, 148, "Input"],
+Cell[2320, 72, 240, 6, 23, "Message"],
+Cell[2563, 80, 240, 6, 23, "Message"],
+Cell[2806, 88, 239, 6, 23, "Message"],
+Cell[3048, 96, 338, 7, 23, "Message"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3423, 108, 370, 10, 34, "Input"],
+Cell[3796, 120, 378, 7, 23, "Message"],
+Cell[4177, 129, 830, 19, 37, "Output"]
+}, Open  ]],
+Cell[5022, 151, 307, 8, 34, "Input"],
+Cell[5332, 161, 304, 8, 34, "Input"],
+Cell[5639, 171, 311, 8, 34, "Input"],
+Cell[5953, 181, 609, 15, 34, "Input"],
+Cell[CellGroupData[{
+Cell[6587, 200, 701, 20, 34, InheritFromParent],
+Cell[7291, 222, 656, 19, 34, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7984, 246, 487, 12, 34, "Input"],
+Cell[8474, 260, 352, 7, 23, "Message"],
+Cell[8829, 269, 832, 19, 37, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9698, 293, 839, 25, 34, InheritFromParent],
+Cell[10540, 320, 838, 25, 34, "Output"]
+}, Open  ]]
+}
+]
+*)
+

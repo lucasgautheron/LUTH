@@ -1,0 +1,286 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      9650,        278]
+NotebookOptionsPosition[      8602,        239]
+NotebookOutlinePosition[      8940,        254]
+CellTagsIndexPosition[      8897,        251]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"<<", " ", "Tracer.m"}]], "Input",
+ CellChangeTimes->{{3.6884505456846*^9, 3.688450552245123*^9}, {
+   3.6884506669976883`*^9, 3.688450672493971*^9}, {3.68845086712856*^9, 
+   3.688450961938676*^9}, {3.688451202691877*^9, 3.688451213770803*^9}, {
+   3.68845138680546*^9, 3.688451393254698*^9}, {3.6884629141640053`*^9, 
+   3.688462926707994*^9}, {3.688463096757215*^9, 3.688463099381444*^9}, {
+   3.688463135395052*^9, 3.68846316224664*^9}, 3.688463194282648*^9},
+ EmphasizeSyntaxErrors->True],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Remove","rmnsm",
+   "\"There are no symbols matching \
+\\\"\\!\\(\\*RowBox[{\\\"\\\\\\\"Tracer`Private`*\\\\\\\"\\\"}]\\)\\\".\"",2,
+   1,1,22314590944057230902,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{
+  3.688463137903224*^9, {3.688463207621451*^9, 3.688463230994952*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\" \\n                               T R A C E R\"\>"], \
+"Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231020708*^9}}],
+
+Cell[BoxData["\<\"                              =============\\n \\n\"\>"], \
+"Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231021352*^9}}],
+
+Cell[BoxData["\<\"     A MATHEMATICA PACKAGE FOR GAMMA-ALGEBRA IN ARBITRARY \
+DIMENSIONS\"\>"], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231021943*^9}}],
+
+Cell[BoxData["\<\"                     by M. Jamin and M.E. \
+Lautenbacher\"\>"], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231022523*^9}}],
+
+Cell[BoxData["\<\"              Physics Dept. T31, Technical University \
+Munich\\n \\n\"\>"], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.6884632310230722`*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"             Version \"\>", 
+   "\[InvisibleSpace]", "\<\"1.1.1\"\>", 
+   "\[InvisibleSpace]", "\<\" from \"\>", 
+   "\[InvisibleSpace]", "\<\"Mon Dec 30 15:36:00 MET 1991\"\>"}],
+  SequenceForm[
+  "             Version ", "1.1.1", " from ", "Mon Dec 30 15:36:00 MET 1991"],
+  
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231023663*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"                    (based on MATHEMATICA Version \"\>", 
+   "\[InvisibleSpace]", "\<\"1.2\"\>", 
+   "\[InvisibleSpace]", "\<\")\\n \\n\"\>"}],
+  SequenceForm[
+  "                    (based on MATHEMATICA Version ", "1.2", ")\n \n"],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231024378*^9}}],
+
+Cell[BoxData["\<\"The package defines the following \
+commands:\\n\\n\\\"AntiCommute\\\", \\\"ContractEpsGamma\\\", \\\"Eps\\\", \\\
+\"G\\\",\\n\\\"GammaTrace\\\", \\\"G5\\\", \\\"H\\\",\\n\\\"ListCommands\\\", \
+\\\"NoSpur\\\",\\n\\\"OnShell\\\", \\\"OutputFormat\\\", \\\"RemoveHatMomenta\
+\\\",\\n\\n\\\"RemoveNCM\\\", \\\"S\\\", \\\"Sigma\\\", \\\"SortLine\\\", \
+\\\"Spur\\\", \\\"T\\\",\\n\\\"ToDiracBasis\\\",\\n\\\"ToHatTilde\\\", \
+\\\"ToOtimes\\\", \\\"ToUG5\\\", \\\"U\\\",\\n\\\"VectorDimension\\\", \
+\\\"Version\\\".\\n\\n                                    Help on usage as \
+usual per ?Name.\\n\"\>"], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231024962*^9}}],
+
+Cell[BoxData["\<\"DEFAULT SETTINGS ON \
+STARTUP:\\n\\n----------------------------\"\>"], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231025717*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"NonCommutativeMultiply will be \"\>", 
+   "\[InvisibleSpace]", "\<\"removed.\"\>"}],
+  SequenceForm["NonCommutativeMultiply will be ", "removed."],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.6884632310263042`*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Current OutputFormat is set to \"\>", 
+   "\[InvisibleSpace]", "\<\"\\\"texlike\\\"\"\>", 
+   "\[InvisibleSpace]", "\<\".\"\>"}],
+  SequenceForm["Current OutputFormat is set to ", "\"texlike\"", "."],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231026869*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Package uses a non anticommuting G5 in \\\"\"\>", 
+   "\[InvisibleSpace]", "\<\"d\"\>", 
+   "\[InvisibleSpace]", "\<\"\\\" dimensions.\"\>"}],
+  SequenceForm[
+  "Package uses a non anticommuting G5 in \"", "d", "\" dimensions."],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.688463137928462*^9, {3.688463207663476*^9, 3.688463231027466*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Spur", "[", "l", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.688462932118661*^9, 3.68846293834414*^9}, 
+   3.6884631086221*^9}],
+
+Cell[BoxData["\<\"The gamma matrix line(s) \\\"l\\\" will be traced.\"\>"], \
+"Print",
+ CellChangeTimes->{3.688463236670693*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"A", " ", "=", " ", 
+  RowBox[{"Simplify", "[", 
+   RowBox[{"G", "[", 
+    RowBox[{"l", ",", 
+     RowBox[{"p", "+", 
+      RowBox[{"m", " ", "U"}]}], ",", " ", 
+     RowBox[{"{", "mu", "}"}], ",", " ", 
+     RowBox[{
+      RowBox[{"gv", " ", "U"}], " ", "-", " ", 
+      RowBox[{"ga", " ", "G5"}]}], ",", "  ", 
+     RowBox[{"q", "+", 
+      RowBox[{"M", " ", "U"}]}], ",", " ", 
+     RowBox[{"{", "nu", "}"}], ",", " ", 
+     RowBox[{
+      RowBox[{"gv", " ", "U"}], " ", "-", " ", 
+      RowBox[{"ga", " ", "G5"}]}]}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6884629465368233`*^9, 3.6884629573855124`*^9}, {
+  3.6884629969490137`*^9, 3.688463086549499*^9}, {3.688463181895927*^9, 
+  3.688463183243711*^9}, {3.688463290890017*^9, 3.688463303447184*^9}, {
+  3.68846337264968*^9, 3.688463373344586*^9}}],
+
+Cell[BoxData[
+ RowBox[{"4", " ", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+    "2", " ", "\[ImaginaryI]", " ", "ga", " ", "gv", 
+     " ", "\<\"Eps[p,q,{mu},{nu}]\"\>"}], "+", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["ga", "2"], " ", "m", " ", "M", 
+     " ", "\<\"g^_{mu nu}\"\>"}], "-", 
+    RowBox[{"4", " ", 
+     SuperscriptBox["ga", "2"], " ", "\<\"p^.q^\"\>", 
+     " ", "\<\"g^_{mu nu}\"\>"}], "+", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["ga", "2"], " ", "\<\"g^_{mu nu}\"\>", 
+     " ", "\<\"p.q\"\>"}], "-", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["ga", "2"], " ", "\<\"q^_{mu}\"\>", 
+     " ", "\<\"p_{nu}\"\>"}], "+", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["ga", "2"], " ", "\<\"p^_{nu}\"\>", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", "\<\"q^_{mu}\"\>"}], "-", "\<\"q_{mu}\"\>"}], 
+      ")"}]}], "+", 
+    RowBox[{
+     SuperscriptBox["ga", "2"], " ", "\<\"p_{nu}\"\>", 
+     " ", "\<\"q_{mu}\"\>"}], "+", 
+    RowBox[{
+     SuperscriptBox["gv", "2"], " ", "\<\"p_{nu}\"\>", 
+     " ", "\<\"q_{mu}\"\>"}], "+", 
+    RowBox[{
+     SuperscriptBox["ga", "2"], " ", "\<\"p_{mu}\"\>", 
+     " ", "\<\"q_{nu}\"\>"}], "+", 
+    RowBox[{
+     SuperscriptBox["gv", "2"], " ", "\<\"p_{mu}\"\>", 
+     " ", "\<\"q_{nu}\"\>"}], "-", 
+    RowBox[{
+     SuperscriptBox["ga", "2"], " ", "m", " ", "M", 
+     " ", "\<\"g_{mu nu}\"\>"}], "+", 
+    RowBox[{
+     SuperscriptBox["gv", "2"], " ", "m", " ", "M", 
+     " ", "\<\"g_{mu nu}\"\>"}], "+", 
+    RowBox[{"2", " ", 
+     SuperscriptBox["ga", "2"], " ", "\<\"p^.q^\"\>", 
+     " ", "\<\"g_{mu nu}\"\>"}], "-", 
+    RowBox[{
+     SuperscriptBox["ga", "2"], " ", "\<\"p.q\"\>", 
+     " ", "\<\"g_{mu nu}\"\>"}], "-", 
+    RowBox[{
+     SuperscriptBox["gv", "2"], " ", "\<\"p.q\"\>", 
+     " ", "\<\"g_{mu nu}\"\>"}]}], ")"}]}]], "Output",
+ CellChangeTimes->{{3.688463071608238*^9, 3.688463111482596*^9}, {
+   3.6884631738245773`*^9, 3.68846318430398*^9}, 3.688463238892839*^9, 
+   3.688463292431465*^9, 3.688463374052331*^9}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6884505565125427`*^9, 3.688450563619376*^9}}]
+},
+WindowSize->{1535, 876},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"11.0 for Linux x86 (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 516, 8, 32, "Input"],
+Cell[1099, 32, 334, 8, 23, "Message"],
+Cell[CellGroupData[{
+Cell[1458, 44, 173, 3, 45, "Print"],
+Cell[1634, 49, 177, 3, 65, "Print"],
+Cell[1814, 54, 195, 3, 24, "Print"],
+Cell[2012, 59, 181, 3, 24, "Print"],
+Cell[2196, 64, 196, 3, 67, "Print"],
+Cell[2395, 69, 447, 11, 24, "Print"],
+Cell[2845, 82, 403, 9, 65, "Print"],
+Cell[3251, 93, 717, 10, 303, "Print"],
+Cell[3971, 105, 189, 3, 65, "Print"],
+Cell[4163, 110, 319, 7, 24, "Print"],
+Cell[4485, 119, 370, 8, 24, "Print"],
+Cell[4858, 129, 399, 9, 24, "Print"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5306, 144, 164, 4, 34, "Input"],
+Cell[5473, 150, 128, 2, 24, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5638, 157, 834, 20, 34, "Input"],
+Cell[6475, 179, 2014, 54, 98, "Output"]
+}, Open  ]],
+Cell[8504, 236, 94, 1, 32, "Input"]
+}
+]
+*)
+

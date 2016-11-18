@@ -1,0 +1,1263 @@
+(***********************************************************************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used on any computer system with Mathematica 3.0,
+MathReader 3.0, or any compatible application. The data for the notebook 
+starts with the line of stars above.
+
+To get the notebook into a Mathematica-compatible application, do one of 
+the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing the 
+word CacheID, otherwise Mathematica-compatible applications may try to 
+use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+***********************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     38894,       1134]*)
+(*NotebookOutlinePosition[     39629,       1160]*)
+(*  CellTagsIndexPosition[     39585,       1156]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Examples of Special Relativity", "Title",
+  TextAlignment->Center,
+  TextJustification->0,
+  Background->GrayLevel[0.900008]],
+
+Cell["\<\
+ Renan Cabrera 
+Academia Nacional de Ciencias de Bolivia
+
+renanbo@hotmail.com
+rencabla@ceibo.entelnet.bo
+La Paz Bolivia -2000\
+\>", "SmallText",
+  TextAlignment->Center,
+  TextJustification->0,
+  Background->GrayLevel[0.900008]],
+
+Cell["\<\
+Abstract
+This Mathematica Notebook shows  basic applications of the \"tensor.m\" \
+package in special relativity. In the first part we define the Metric Tensor \
+for the Minkovsky space and later we define the Jacobian Matrix for system's \
+transformation.   
+\
+\>", "Abstract",
+  TextAlignment->Center,
+  TextJustification->0,
+  Background->GrayLevel[0.900008]],
+
+Cell["\<\
+\"Tensorial.m\" is a package that can be downloaded from Mat Source 
+
+http://www.mathsource.com/Content/Applications/Physics/0211-419
+
+Please write me to get the last version of it.\
+\>", "Caption",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(Needs["\<tensorial`\>", "\<F:\\Renan\\Fiscom\\Book\\tensorial.m\>"]\)], 
+  "Input",
+  CellLabel->"In[1]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(x[p_]\  = \ Tensor[x, {Void}, {p}]; \n\n
+    GM\  = {\ {\ \ 1\ \ \ \ , \ \ \ 0\ \ \ \ \ , \ 0\ \ \ \ \ , \ \ \ \ \ \ 0
+          \ }, \n\t\t\ \ \ \ \ \ \ \ \ {\ \ 0\ \ \ \ , \ \ \(-1\)\ \ \ , \ 0
+          \ \ \ \ \ \ , \ \ \ \ \ 0\ \ }, \n
+        \ \ \t\t\ \ \ \ \ \ \ {\ \ 0\ \ \ \ , \ \ \ 0\ \ \ \ \ , \ 
+          \(-1\)\ \ \ \ , \ \ \ \ 0\ \ }, \n
+        \t\t\ \ \ \ \ \ \ \ \ {\ \ 0\ \ \ \ , \ \ \ \ 0\ \ \ \ , \ \ \ 0
+          \ \ \ \ \ , \ \ \(-1\)\ }\ }; \n\nSetSystem[x\ , g, \ GM\ ]\)], 
+  "Input",
+  CellLabel->"In[2]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell["Four fold vectors", "SectionFirst",
+  Background->GrayLevel[0.900008]],
+
+Cell["Arc element in Minkovsky space", "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(dS\  = \ \ Tensor[g, {i, j}, {Void, Void}]\ x[i] x[j]\n\t\), 
+    \(ExpandDoubleIndex[dS, {i, j}]\)}], "Input",
+  CellLabel->"In[3]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{
+        FormBox[
+          InterpretationBox[
+            SubsuperscriptBox["g", 
+              InterpretationBox[\(i\[InvisibleSpace]j\),
+                SequenceForm[ i, j],
+                Editable->False], 
+              InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+                SequenceForm[ "  ", "  "],
+                Editable->False]],
+            Subsuperscript[ g, 
+              SequenceForm[ i, j], 
+              SequenceForm[ "  ", "  "]],
+            Editable->False],
+          "TraditionalForm"], " ", 
+        FormBox[
+          InterpretationBox[
+            SubsuperscriptBox["x", 
+              InterpretationBox[\("  "\),
+                SequenceForm[ "  "],
+                Editable->False], 
+              InterpretationBox["i",
+                SequenceForm[ i],
+                Editable->False]],
+            Subsuperscript[ x, 
+              SequenceForm[ "  "], 
+              SequenceForm[ i]],
+            Editable->False],
+          "TraditionalForm"], " ", 
+        FormBox[
+          InterpretationBox[
+            SubsuperscriptBox["x", 
+              InterpretationBox[\("  "\),
+                SequenceForm[ "  "],
+                Editable->False], 
+              InterpretationBox["j",
+                SequenceForm[ j],
+                Editable->False]],
+            Subsuperscript[ x, 
+              SequenceForm[ "  "], 
+              SequenceForm[ j]],
+            Editable->False],
+          "TraditionalForm"]}], TraditionalForm]], "Output",
+  CellLabel->"Out[3]=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["1",
+                            SequenceForm[ 1],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 1]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {1}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {1}], ""], 2],
+            Editable->False],
+          "TraditionalForm"], "-", 
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["2",
+                            SequenceForm[ 2],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 2]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {2}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {2}], ""], 2],
+            Editable->False],
+          "TraditionalForm"], "-", 
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["3",
+                            SequenceForm[ 3],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 3]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {3}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {3}], ""], 2],
+            Editable->False],
+          "TraditionalForm"], "-", 
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["4",
+                            SequenceForm[ 4],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 4]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {4}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {4}], ""], 2],
+            Editable->False],
+          "TraditionalForm"]}], TraditionalForm]], "Output",
+  CellLabel->"Out[4]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]],
+
+Cell["Velocity", "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Tensor[V, {Void}, {i_?IntegerQ}]\  = \ \ AbsoluteDerivative[x[i], s]\)],
+   "Input",
+  CellLabel->"In[5]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      TagBox[
+        FractionBox[
+          RowBox[{"\[DifferentialD]", 
+            FormBox[
+              InterpretationBox[
+                SubsuperscriptBox["x", 
+                  InterpretationBox[\("  "\),
+                    SequenceForm[ "  "],
+                    Editable->False], 
+                  InterpretationBox["i",
+                    SequenceForm[ i],
+                    Editable->False]],
+                Subsuperscript[ x, 
+                  SequenceForm[ "  "], 
+                  SequenceForm[ i]],
+                Editable->False],
+              "TraditionalForm"]}], \(\[DifferentialD]s\),
+          MultilineFunction->None],
+        HoldForm], TraditionalForm]], "Output",
+  CellLabel->"Out[5]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]],
+
+Cell["Acceleration", "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Tensor[A, {Void}, {i_?IntegerQ}] = \ 
+      IntrinsecDerivative[\ Tensor[V, {Void}, {i}], \ s, {x, g}\ ]\)], "Input",\
+
+  CellLabel->"In[6]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      FractionBox[
+        InterpretationBox[
+          RowBox[{"\[Delta]", "\[InvisibleSpace]", 
+            FormBox[
+              InterpretationBox[
+                SubsuperscriptBox["V", 
+                  InterpretationBox[\("  "\),
+                    SequenceForm[ "  "],
+                    Editable->False], 
+                  InterpretationBox["i",
+                    SequenceForm[ i],
+                    Editable->False]],
+                Subsuperscript[ V, 
+                  SequenceForm[ "  "], 
+                  SequenceForm[ i]],
+                Editable->False],
+              "TraditionalForm"]}],
+          SequenceForm[ \[Delta], 
+            Tensor[ V, {"  "}, {i}]],
+          Editable->False], 
+        InterpretationBox[\(\[Delta]\[InvisibleSpace]s\),
+          SequenceForm[ \[Delta], s],
+          Editable->False]], TraditionalForm]], "Output",
+  CellLabel->"Out[6]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]],
+
+Cell["Momentum Energy", "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(Tensor[\ P\ , {Void}, {1}]\  = \ En/c; \n
+    Tensor[\ P\ , {Void}, {2}]\  = \ Px; \n
+    Tensor[\ P\ , {Void}, {3}]\  = \ Py; \n
+    Tensor[\ P\ , {Void}, {4}]\  = \ Pz; \)], "Input",
+  CellLabel->"In[7]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Tensor[P, {Void}, {i}]\)], "Input",
+  CellLabel->"In[8]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      InterpretationBox[
+        SubsuperscriptBox["P", 
+          InterpretationBox[\("  "\),
+            SequenceForm[ "  "],
+            Editable->False], 
+          InterpretationBox["i",
+            SequenceForm[ i],
+            Editable->False]],
+        Subsuperscript[ P, 
+          SequenceForm[ "  "], 
+          SequenceForm[ i]],
+        Editable->False], TraditionalForm]], "Output",
+  CellLabel->"Out[8]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Transformations", "Section",
+  Background->GrayLevel[0.900008]],
+
+Cell[TextData[{
+  "Lets define a system transformation with Jacobian ",
+  Cell[BoxData[
+      FormBox[
+        InterpretationBox[
+          SubsuperscriptBox["L", 
+            InterpretationBox[\("  "\[InvisibleSpace]j\),
+              SequenceForm[ "  ", j],
+              Editable->False], 
+            InterpretationBox[\(i\[InvisibleSpace]"  "\),
+              SequenceForm[ i, "  "],
+              Editable->False]],
+          Subsuperscript[ L, 
+            SequenceForm[ "  ", j], 
+            SequenceForm[ i, "  "]],
+          Editable->False], TraditionalForm]]]
+}], "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(\(\n\(\[Gamma]Rule\ \  = \ \ \ \ \ 
+      \[Gamma] -> \ 1/Sqrt[1 - \[Beta]^2\ ]; \)\n\)\)], "Input",
+  CellLabel->"In[9]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(\(MT
+       = {\n{\ \ \ \[Gamma]\ \ \ \ , \ \(-\[Gamma]\)\ \ \[Beta]\ \ \ \ \ , 
+          \ \ 0\ \ , \ \ \ 0\ \ \ \ \ \ }, 
+        \n{\(-\[Gamma]\)\ \[Beta]\ , \ \ \ \ \ \[Gamma]\ \ \ \ \ \ \ \ , \ \ 0
+          \ \ , \ \ \ 0\ \ \ \ \ \ }, 
+        \n{\ \ \ \ \ 0\ , \ \ \ \ 0\ \ \ \ \ \ \ \ \ , \ \ 1\ \ \ , \ \ 0
+          \ \ \ \ }, 
+        \n{\ \ \ \ 0\ \ , \ \ \ 0\ \ \ \ \ \ \ \ \ \ , \ \ 0\ \ \ \ , 1
+          \ \ \ \ \ \ }}; \)\)], "Input",
+  CellLabel->"In[10]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[TextData[{
+  "Assigning the values to ",
+  Cell[BoxData[
+      FormBox[
+        InterpretationBox[
+          SubsuperscriptBox["L", 
+            InterpretationBox[\("  "\[InvisibleSpace]j\),
+              SequenceForm[ "  ", j],
+              Editable->False], 
+            InterpretationBox[\(i\[InvisibleSpace]"  "\),
+              SequenceForm[ i, "  "],
+              Editable->False]],
+          Subsuperscript[ L, 
+            SequenceForm[ "  ", j], 
+            SequenceForm[ i, "  "]],
+          Editable->False], TraditionalForm]]]
+}], "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(Do[\n\tTensor[L, {Void, j}, {i, Void}]\  = \ MT[\([i, j]\)]\n
+      \t, {i, 1, 4}, {j, 1, 4}]\)], "Input",
+  CellLabel->"In[11]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(Tensor[L, {Void, j}, {i, Void}]\n\), 
+    \(ExpandIndex[Tensor[L, {Void, i}, {j, Void}], {i, j}]\n\)}], "Input",
+  CellLabel->"In[12]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      InterpretationBox[
+        SubsuperscriptBox["L", 
+          InterpretationBox[\("  "\[InvisibleSpace]j\),
+            SequenceForm[ "  ", j],
+            Editable->False], 
+          InterpretationBox[\(i\[InvisibleSpace]"  "\),
+            SequenceForm[ i, "  "],
+            Editable->False]],
+        Subsuperscript[ L, 
+          SequenceForm[ "  ", j], 
+          SequenceForm[ i, "  "]],
+        Editable->False], TraditionalForm]], "Output",
+  CellLabel->"Out[12]=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"(", GridBox[{
+            {"\[Gamma]", \(\(-\[Beta]\)\ \[Gamma]\), "0", "0"},
+            {\(\(-\[Beta]\)\ \[Gamma]\), "\[Gamma]", "0", "0"},
+            {"0", "0", "1", "0"},
+            {"0", "0", "0", "1"}
+            }], ")"}], TraditionalForm]], "Output",
+  CellLabel->"Out[13]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]],
+
+Cell[TextData[{
+  "Defining",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"   ", 
+          InterpretationBox[
+            SubsuperscriptBox["y", 
+              InterpretationBox[\("  "\),
+                SequenceForm[ "  "],
+                Editable->False], 
+              InterpretationBox["i",
+                SequenceForm[ i],
+                Editable->False]],
+            Subsuperscript[ y, 
+              SequenceForm[ "  "], 
+              SequenceForm[ i]],
+            Editable->False]}], TraditionalForm]]]
+}], "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(Tensor[y, {Void}, {i}]\n\), 
+    \(\(Tensor[y, {Void}, {i_?NumberQ}]\  = \ \n
+      ExpandDoubleIndex[
+        Tensor[L, {Void, j}, {i, Void}]\ Tensor[x, {Void}, {j}]\ , {j}]; 
+    \)\)}], "Input",
+  CellLabel->"In[14]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      InterpretationBox[
+        SubsuperscriptBox["y", 
+          InterpretationBox[\("  "\),
+            SequenceForm[ "  "],
+            Editable->False], 
+          InterpretationBox["i",
+            SequenceForm[ i],
+            Editable->False]],
+        Subsuperscript[ y, 
+          SequenceForm[ "  "], 
+          SequenceForm[ i]],
+        Editable->False], TraditionalForm]], "Output",
+  CellLabel->"Out[14]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]],
+
+Cell["As a particular case:", "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ExpandIndex[\n\tTensor[y, {Void}, {i}]\n, {i}]\)], "Input",
+  CellLabel->"In[16]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{
+            RowBox[{"\[Gamma]", " ", 
+              FormBox[
+                InterpretationBox[
+                  SubsuperscriptBox["x", 
+                    InterpretationBox[\("  "\),
+                      SequenceForm[ "  "],
+                      Editable->False], 
+                    InterpretationBox["1",
+                      SequenceForm[ 1],
+                      Editable->False]],
+                  Subsuperscript[ x, 
+                    SequenceForm[ "  "], 
+                    SequenceForm[ 1]],
+                  Editable->False],
+                "TraditionalForm"]}], "-", 
+            RowBox[{"\[Beta]", " ", "\[Gamma]", " ", 
+              FormBox[
+                InterpretationBox[
+                  SubsuperscriptBox["x", 
+                    InterpretationBox[\("  "\),
+                      SequenceForm[ "  "],
+                      Editable->False], 
+                    InterpretationBox["2",
+                      SequenceForm[ 2],
+                      Editable->False]],
+                  Subsuperscript[ x, 
+                    SequenceForm[ "  "], 
+                    SequenceForm[ 2]],
+                  Editable->False],
+                "TraditionalForm"]}]}], ",", 
+          RowBox[{
+            RowBox[{"\[Gamma]", " ", 
+              FormBox[
+                InterpretationBox[
+                  SubsuperscriptBox["x", 
+                    InterpretationBox[\("  "\),
+                      SequenceForm[ "  "],
+                      Editable->False], 
+                    InterpretationBox["2",
+                      SequenceForm[ 2],
+                      Editable->False]],
+                  Subsuperscript[ x, 
+                    SequenceForm[ "  "], 
+                    SequenceForm[ 2]],
+                  Editable->False],
+                "TraditionalForm"]}], "-", 
+            RowBox[{"\[Beta]", " ", "\[Gamma]", " ", 
+              FormBox[
+                InterpretationBox[
+                  SubsuperscriptBox["x", 
+                    InterpretationBox[\("  "\),
+                      SequenceForm[ "  "],
+                      Editable->False], 
+                    InterpretationBox["1",
+                      SequenceForm[ 1],
+                      Editable->False]],
+                  Subsuperscript[ x, 
+                    SequenceForm[ "  "], 
+                    SequenceForm[ 1]],
+                  Editable->False],
+                "TraditionalForm"]}]}], ",", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["x", 
+                InterpretationBox[\("  "\),
+                  SequenceForm[ "  "],
+                  Editable->False], 
+                InterpretationBox["3",
+                  SequenceForm[ 3],
+                  Editable->False]],
+              Subsuperscript[ x, 
+                SequenceForm[ "  "], 
+                SequenceForm[ 3]],
+              Editable->False],
+            "TraditionalForm"], ",", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["x", 
+                InterpretationBox[\("  "\),
+                  SequenceForm[ "  "],
+                  Editable->False], 
+                InterpretationBox["4",
+                  SequenceForm[ 4],
+                  Editable->False]],
+              Subsuperscript[ x, 
+                SequenceForm[ "  "], 
+                SequenceForm[ 4]],
+              Editable->False],
+            "TraditionalForm"]}], "}"}], TraditionalForm]], "Output",
+  CellLabel->"Out[16]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]],
+
+Cell[TextData[{
+  "The arc must be conserved    ",
+  Cell[BoxData[
+      \(ds\^2\)]],
+  "  =  ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["g", 
+                InterpretationBox[\(i\[InvisibleSpace]j\),
+                  SequenceForm[ i, j],
+                  Editable->False], 
+                InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+                  SequenceForm[ "  ", "  "],
+                  Editable->False]],
+              Subsuperscript[ g, 
+                SequenceForm[ i, j], 
+                SequenceForm[ "  ", "  "]],
+              Editable->False],
+            "TraditionalForm"], " ", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["y", 
+                InterpretationBox[\("  "\),
+                  SequenceForm[ "  "],
+                  Editable->False], 
+                InterpretationBox["i",
+                  SequenceForm[ i],
+                  Editable->False]],
+              Subsuperscript[ y, 
+                SequenceForm[ "  "], 
+                SequenceForm[ i]],
+              Editable->False],
+            "TraditionalForm"], " ", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["y", 
+                InterpretationBox[\("  "\),
+                  SequenceForm[ "  "],
+                  Editable->False], 
+                InterpretationBox["j",
+                  SequenceForm[ j],
+                  Editable->False]],
+              Subsuperscript[ y, 
+                SequenceForm[ "  "], 
+                SequenceForm[ j]],
+              Editable->False],
+            "TraditionalForm"]}], TraditionalForm]]],
+  " =",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[
+            RowBox[{"      ", 
+              InterpretationBox[
+                SubsuperscriptBox["g", 
+                  InterpretationBox[\(i\[InvisibleSpace]j\),
+                    SequenceForm[ i, j],
+                    Editable->False], 
+                  InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+                    SequenceForm[ "  ", "  "],
+                    Editable->False]],
+                Subsuperscript[ g, 
+                  SequenceForm[ i, j], 
+                  SequenceForm[ "  ", "  "]],
+                Editable->False]}],
+            "TraditionalForm"], " ", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["x", 
+                InterpretationBox[\("  "\),
+                  SequenceForm[ "  "],
+                  Editable->False], 
+                InterpretationBox["i",
+                  SequenceForm[ i],
+                  Editable->False]],
+              Subsuperscript[ x, 
+                SequenceForm[ "  "], 
+                SequenceForm[ i]],
+              Editable->False],
+            "TraditionalForm"], " ", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["x", 
+                InterpretationBox[\("  "\),
+                  SequenceForm[ "  "],
+                  Editable->False], 
+                InterpretationBox["j",
+                  SequenceForm[ j],
+                  Editable->False]],
+              Subsuperscript[ x, 
+                SequenceForm[ "  "], 
+                SequenceForm[ j]],
+              Editable->False],
+            "TraditionalForm"]}], TraditionalForm]]]
+}], "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(dS2\  = \ 
+      Tensor[g, {i, j}, {Void, Void}]\ Tensor[y, {Void}, {i}]\ 
+        Tensor[y, {Void}, {j}]\n\), 
+    \(dum\  = 
+      ExpandDoubleIndex[dS2, {i, j}]\  /. \ \[Gamma]Rule\  // Simplify\n\)}], 
+  "Input",
+  CellLabel->"In[17]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{
+        FormBox[
+          InterpretationBox[
+            SubsuperscriptBox["g", 
+              InterpretationBox[\(i\[InvisibleSpace]j\),
+                SequenceForm[ i, j],
+                Editable->False], 
+              InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+                SequenceForm[ "  ", "  "],
+                Editable->False]],
+            Subsuperscript[ g, 
+              SequenceForm[ i, j], 
+              SequenceForm[ "  ", "  "]],
+            Editable->False],
+          "TraditionalForm"], " ", 
+        FormBox[
+          InterpretationBox[
+            SubsuperscriptBox["y", 
+              InterpretationBox[\("  "\),
+                SequenceForm[ "  "],
+                Editable->False], 
+              InterpretationBox["i",
+                SequenceForm[ i],
+                Editable->False]],
+            Subsuperscript[ y, 
+              SequenceForm[ "  "], 
+              SequenceForm[ i]],
+            Editable->False],
+          "TraditionalForm"], " ", 
+        FormBox[
+          InterpretationBox[
+            SubsuperscriptBox["y", 
+              InterpretationBox[\("  "\),
+                SequenceForm[ "  "],
+                Editable->False], 
+              InterpretationBox["j",
+                SequenceForm[ j],
+                Editable->False]],
+            Subsuperscript[ y, 
+              SequenceForm[ "  "], 
+              SequenceForm[ j]],
+            Editable->False],
+          "TraditionalForm"]}], TraditionalForm]], "Output",
+  CellLabel->"Out[17]=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["1",
+                            SequenceForm[ 1],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 1]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {1}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {1}], ""], 2],
+            Editable->False],
+          "TraditionalForm"], "-", 
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["2",
+                            SequenceForm[ 2],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 2]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {2}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {2}], ""], 2],
+            Editable->False],
+          "TraditionalForm"], "-", 
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["3",
+                            SequenceForm[ 3],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 3]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {3}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {3}], ""], 2],
+            Editable->False],
+          "TraditionalForm"], "-", 
+        FormBox[
+          InterpretationBox[
+            SuperscriptBox[
+              RowBox[{"(", 
+                InterpretationBox[
+                  RowBox[{\(""\), "\[InvisibleSpace]", 
+                    FormBox[
+                      InterpretationBox[
+                        SubsuperscriptBox["x", 
+                          InterpretationBox[\("  "\),
+                            SequenceForm[ "  "],
+                            Editable->False], 
+                          InterpretationBox["4",
+                            SequenceForm[ 4],
+                            Editable->False]],
+                        Subsuperscript[ x, 
+                          SequenceForm[ "  "], 
+                          SequenceForm[ 4]],
+                        Editable->False],
+                      "TraditionalForm"], "\[InvisibleSpace]", \(""\)}],
+                  SequenceForm[ "", 
+                    Tensor[ x, {"  "}, {4}], ""],
+                  Editable->False], ")"}], "2"],
+            Superscript[ 
+              SequenceForm[ "", 
+                Tensor[ x, {"  "}, {4}], ""], 2],
+            Editable->False],
+          "TraditionalForm"]}], TraditionalForm]], "Output",
+  CellLabel->"Out[18]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Electromagnetic Tensor", "Section",
+  Background->GrayLevel[0.900008]],
+
+Cell[TextData[{
+  "Lets Define the Electromagnetic Tensor ",
+  Cell[BoxData[
+      FormBox[
+        SubsuperscriptBox["F", 
+          InterpretationBox[\(i\[InvisibleSpace]j\),
+            SequenceForm[ i, j],
+            Editable->False], 
+          InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+            SequenceForm[ "  ", "  "],
+            Editable->False]], TraditionalForm]]]
+}], "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(\(FTV
+       = {\n{\ \ \ 0\ \ \ \ , \ Ex\ \ \ , \ Ey\ \ , \ \ \ Ez\ \ \ \ \ \ }, 
+        \n{\ \(-Ex\)\ \ \ , \ \ \ \ 0\ \ \ \ \ \ \ , \ \ 0\ \ , \ \ \ 0
+          \ \ \ \ \ \ }, 
+        \n{\ \(-Ey\)\ \ \ , \ \ \ \ 0\ \ \ \ \ \ \ , \ \ 0\ \ \ , \ \ 0
+          \ \ \ \ }, 
+        \n{\ \(-Ez\)\ \ \ , \ \ \ 0\ \ \ \ \ \ \ , \ \ 0\ \ \ \ , 0
+          \ \ \ \ \ \ }}; \n\n
+    Do[\nTensor[F, {Void, Void}, {i, j}]\  = \ FTV[\([i, j]\)]\n
+      \t, {i, 1, 4}, {j, 1, 4}]\n\)\)], "Input",
+  CellLabel->"In[19]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ExpandIndex[\n\t\ Tensor[F, {Void, Void}, {\[Mu], \[Nu]}]\n
+      \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ , {\[Mu], \[Nu]}]\)], 
+  "Input",
+  CellLabel->"In[20]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"(", GridBox[{
+            {"0", "Ex", "Ey", "Ez"},
+            {\(-Ex\), "0", "0", "0"},
+            {\(-Ey\), "0", "0", "0"},
+            {\(-Ez\), "0", "0", "0"}
+            }], ")"}], TraditionalForm]], "Output",
+  CellLabel->"Out[20]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]],
+
+Cell[TextData[{
+  "Calculating the transformation of the Electromagnetic Tensor ",
+  Cell[BoxData[
+      FormBox[
+        SubsuperscriptBox["F", 
+          InterpretationBox[\(i\[InvisibleSpace]j\),
+            SequenceForm[ i, j],
+            Editable->False], 
+          InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+            SequenceForm[ "  ", "  "],
+            Editable->False]], TraditionalForm]]],
+  "\n                                   ",
+  Cell[BoxData[
+      FormBox[
+        InterpretationBox[
+          SubsuperscriptBox["F", 
+            InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+              SequenceForm[ "  ", "  "],
+              Editable->False], 
+            InterpretationBox[\(\[Mu]\[InvisibleSpace]\[Nu]\),
+              SequenceForm[ \[Mu], \[Nu]],
+              Editable->False]],
+          Subsuperscript[ F, 
+            SequenceForm[ "  ", "  "], 
+            SequenceForm[ \[Mu], \[Nu]]],
+          Editable->False], TraditionalForm]]],
+  "  =   ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["F", 
+                InterpretationBox[\("  "\[InvisibleSpace]"  "\),
+                  SequenceForm[ "  ", "  "],
+                  Editable->False], 
+                InterpretationBox[\(i\[InvisibleSpace]j\),
+                  SequenceForm[ i, j],
+                  Editable->False]],
+              Subsuperscript[ F, 
+                SequenceForm[ "  ", "  "], 
+                SequenceForm[ i, j]],
+              Editable->False],
+            "TraditionalForm"], " ", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["L", 
+                InterpretationBox[\("  "\[InvisibleSpace]i\),
+                  SequenceForm[ "  ", i],
+                  Editable->False], 
+                InterpretationBox[\(\[Mu]\[InvisibleSpace]"  "\),
+                  SequenceForm[ \[Mu], "  "],
+                  Editable->False]],
+              Subsuperscript[ L, 
+                SequenceForm[ "  ", i], 
+                SequenceForm[ \[Mu], "  "]],
+              Editable->False],
+            "TraditionalForm"], " ", 
+          FormBox[
+            InterpretationBox[
+              SubsuperscriptBox["L", 
+                InterpretationBox[\("  "\[InvisibleSpace]j\),
+                  SequenceForm[ "  ", j],
+                  Editable->False], 
+                InterpretationBox[\(\[Nu]\[InvisibleSpace]"  "\),
+                  SequenceForm[ \[Nu], "  "],
+                  Editable->False]],
+              Subsuperscript[ L, 
+                SequenceForm[ "  ", j], 
+                SequenceForm[ \[Nu], "  "]],
+              Editable->False],
+            "TraditionalForm"]}], TraditionalForm]]]
+}], "Text",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    \(\(\tTensor[F\&_, {Void, Void}, {\[Mu]_?IntegerQ, \[Nu]_?IntegerQ}] := 
+      ExpandDoubleIndex[\n\t\t\ \ \ 
+        Tensor[F, {Void, Void}, {i, j}]*\ Tensor[L, {Void, i}, {\[Mu], Void}]*
+          Tensor[L, {Void, j}, {\[Nu], Void}], {i, j}]\)\)], "Input",
+  CellLabel->"In[21]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(ExpandIndex[\n\t
+        Tensor[F\&_, {Void, Void}, {\[Mu], \[Nu]}], {\[Mu], \[Nu]}] // 
+      Simplify\n\)\)], "Input",
+  CellLabel->"In[22]:=",
+  Background->GrayLevel[0.900008]],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"(", GridBox[{
+            {"0", 
+              RowBox[{\(-Ex\), " ", 
+                RowBox[{"(", 
+                  RowBox[{
+                    
+                    FormBox[
+                      \(\((""\[InvisibleSpace]\[Beta]\[InvisibleSpace]"")\)\^2
+                          \),
+                      "TraditionalForm"], "-", "1"}], ")"}], " ", 
+                
+                FormBox[
+                  \(\((""\[InvisibleSpace]\[Gamma]\[InvisibleSpace]"")\)\^2\),
+                  
+                  "TraditionalForm"]}], \(Ey\ \[Gamma]\), \(Ez\ \[Gamma]\)},
+            {
+              RowBox[{"Ex", " ", 
+                RowBox[{"(", 
+                  RowBox[{
+                    
+                    FormBox[
+                      \(\((""\[InvisibleSpace]\[Beta]\[InvisibleSpace]"")\)\^2
+                          \),
+                      "TraditionalForm"], "-", "1"}], ")"}], " ", 
+                
+                FormBox[
+                  \(\((""\[InvisibleSpace]\[Gamma]\[InvisibleSpace]"")\)\^2\),
+                  
+                  "TraditionalForm"]}], "0", \(\(-Ey\)\ \[Beta]\ \[Gamma]\), 
+              \(\(-Ez\)\ \[Beta]\ \[Gamma]\)},
+            {\(\(-Ey\)\ \[Gamma]\), \(Ey\ \[Beta]\ \[Gamma]\), "0", "0"},
+            {\(\(-Ez\)\ \[Gamma]\), \(Ez\ \[Beta]\ \[Gamma]\), "0", "0"}
+            }], ")"}], TraditionalForm]], "Output",
+  CellLabel->"Out[22]=",
+  Background->GrayLevel[0.900008]]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+},
+FrontEndVersion->"Microsoft Windows 3.0",
+ScreenRectangle->{{0, 1024}, {0, 735}},
+WindowToolbars->"EditBar",
+WindowSize->{870, 585},
+WindowMargins->{{0, Automatic}, {Automatic, 7}},
+Magnification->2,
+StyleDefinitions -> "ARTICLECLASSIC.NB"
+]
+
+
+(***********************************************************************
+Cached data follows.  If you edit this Notebook file directly, not using
+Mathematica, you must remove the line containing CacheID at the top of 
+the file.  The cache data will then be recreated when you save this file 
+from within Mathematica.
+***********************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1731, 51, 131, 3, 238, "Title"],
+Cell[1865, 56, 238, 10, 206, "SmallText"],
+Cell[2106, 68, 372, 10, 262, "Abstract"],
+Cell[2481, 80, 243, 7, 172, "Caption"],
+Cell[2727, 89, 162, 4, 109, "Input"],
+Cell[2892, 95, 591, 11, 263, "Input"],
+
+Cell[CellGroupData[{
+Cell[3508, 110, 76, 1, 129, "SectionFirst"],
+Cell[3587, 113, 81, 1, 81, "Text"],
+
+Cell[CellGroupData[{
+Cell[3693, 118, 191, 4, 134, "Input"],
+Cell[3887, 124, 1591, 46, 93, "Output"],
+Cell[5481, 172, 4789, 116, 90, "Output"]
+}, Open  ]],
+Cell[10285, 291, 59, 1, 81, "Text"],
+
+Cell[CellGroupData[{
+Cell[10369, 296, 163, 4, 109, "Input"],
+Cell[10535, 302, 787, 22, 114, "Output"]
+}, Open  ]],
+Cell[11337, 327, 63, 1, 81, "Text"],
+
+Cell[CellGroupData[{
+Cell[11425, 332, 198, 5, 135, "Input"],
+Cell[11626, 339, 960, 26, 114, "Output"]
+}, Open  ]],
+Cell[12601, 368, 66, 1, 81, "Text"],
+Cell[12670, 371, 263, 6, 161, "Input"],
+
+Cell[CellGroupData[{
+Cell[12958, 381, 114, 3, 83, "Input"],
+Cell[13075, 386, 482, 15, 89, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[13606, 407, 69, 1, 87, "Section"],
+Cell[13678, 410, 619, 17, 84, "Text"],
+Cell[14300, 429, 179, 4, 133, "Input"],
+Cell[14482, 435, 532, 11, 187, "Input"],
+Cell[15017, 448, 593, 17, 84, "Text"],
+Cell[15613, 467, 186, 4, 135, "Input"],
+
+Cell[CellGroupData[{
+Cell[15824, 475, 193, 4, 159, "Input"],
+Cell[16020, 481, 542, 15, 93, "Output"],
+Cell[16565, 498, 362, 9, 183, "Output"]
+}, Open  ]],
+Cell[16942, 510, 568, 18, 81, "Text"],
+
+Cell[CellGroupData[{
+Cell[17535, 532, 278, 7, 212, "Input"],
+Cell[17816, 541, 483, 15, 89, "Output"]
+}, Open  ]],
+Cell[18314, 559, 72, 1, 81, "Text"],
+
+Cell[CellGroupData[{
+Cell[18411, 564, 139, 3, 135, "Input"],
+Cell[18553, 569, 3595, 95, 90, "Output"]
+}, Open  ]],
+Cell[22163, 667, 3435, 98, 84, "Text"],
+
+Cell[CellGroupData[{
+Cell[25623, 769, 297, 8, 210, "Input"],
+Cell[25923, 779, 1592, 46, 93, "Output"],
+Cell[27518, 827, 4790, 116, 90, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[32357, 949, 76, 1, 87, "Section"],
+Cell[32436, 952, 435, 12, 84, "Text"],
+Cell[32874, 966, 566, 12, 315, "Input"],
+
+Cell[CellGroupData[{
+Cell[33465, 982, 225, 5, 135, "Input"],
+Cell[33693, 989, 317, 9, 183, "Output"]
+}, Open  ]],
+Cell[34025, 1001, 2794, 73, 116, "Text"],
+Cell[36822, 1076, 336, 6, 213, "Input"],
+
+Cell[CellGroupData[{
+Cell[37183, 1086, 202, 5, 134, "Input"],
+Cell[37388, 1093, 1466, 36, 191, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+
+(***********************************************************************
+End of Mathematica Notebook file.
+***********************************************************************)
+
