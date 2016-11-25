@@ -1,0 +1,142 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{feynmp}
+\usepackage{feynmp-auto}
+\usepackage{float}
+\usepackage{slashed}
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Capture électronique}
+\author{}
+\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+\section{$p+e^-\to n+\nu_e$}
+
+On étudie le processus : 
+\begin{figure}[H]
+\centering
+\begin{fmffile}{capture}
+\begin{fmfgraph*}(160,100)
+% Note that the size is given in normal parentheses
+% instead of curly brackets.
+% Define external vertices from bottom to top
+\fmfleft{i1,i2}
+\fmfright{o1,o2}
+\fmf{fermion,label=$p(p_p\sigma_p)$}{i1,v1}
+\fmf{fermion,label=$n(p_n\sigma_n)$}{v1,o1}
+\fmf{fermion,label=$e(p_e\sigma_e)$}{i2,v2}
+\fmf{fermion,label=$\nu_e(p_\nu \sigma_\nu)$}{v2,o2}
+\fmf{photon,label=$W(k)$}{v1,v2}
+\end{fmfgraph*}
+\end{fmffile}
+\caption{Diagramme de feynman pour $p+e^- \to n+\nu_e$}
+\end{figure}
+
+Dans l'hypothèse $k \ll m_W$, l'élément de matrice vaut :
+\begin{equation}
+\mathcal{M} \simeq -V_{ud}\dfrac{g_W^2}{8}   \dfrac{1}{m_W^2} \left [  \bar{n}(p_n) \gamma^\mu (g_V-g_A\gamma^5) p(p_p) \bar{\nu}(p_\nu) \gamma_\mu (1-\gamma^5) e(p_e) \right ] 
+\end{equation}
+
+Et : 
+
+\begin{multline}
+\langle |\mathcal{M}|^2 \rangle = \dfrac{1}{4}\sum_{pol} |\mathcal{M}|^2 = \dfrac{1}{4} \left ( |V_{ud}|\dfrac{g_W^2}{8m_W^2} \right) ^2 \mathrm{Tr} \left [ (\slashed{p_n}+m_n)\gamma^\mu (g_V+g_A \gamma^5)(\slashed{p_p}+m_p)\gamma^\nu (g_V+g_A \gamma^5)\right] \\ \cdot \mathrm{Tr} \left [ (\slashed{p_e}+m_e)\gamma_{\mu}(1-\gamma_5) \slashed{p}_{\nu}\gamma_\nu (1-\gamma_5) \right ]
+\end{multline}
+
+Et donc :
+\begin{align}
+\langle |\mathcal{M}|^2 \rangle = \dfrac{1}{4} \left ( |V_{ud}|\dfrac{g_W^2}{m_W^2} \right) ^2 
+[ & (g_A-g_V)^2(p_p \cdot p_\nu)(p_n \cdot p_e) \\
+&+ (g_A+g_V)^2(p_p\cdot p_e)(p_n \cdot p_\nu) \\ 
+&- (g_V^2-g_A^2)m_n m_p (p_e\cdot p_\nu)]
+\end{align}
+
+Fermi golden rule :
+\begin{equation}
+r = 2\pi (2\pi)^4 \delta^4 (p_f-p_i) \dfrac{1}{E_p E_e E_n E_\nu} \langle |\mathcal{M}|^2 \rangle
+\end{equation}
+
+\begin{equation}
+\dfrac{1}{\lambda (E_\nu)} \equiv \int \dfrac{d^3 p_p}{(2\pi)^3} \int \dfrac{d^3 p_e}{(2\pi)^3} \int \dfrac{d^3 p_n}{(2\pi)^3} r \left [ (1-f_p(E_p))(1-f_e(E_e))2f_n(E_n)\right ]
+\end{equation}
+
+Hypothèses :
+\begin{itemize}
+\item $|\vec{p_n}-\vec{p_p}| \ll E_\nu$
+\item $E_\nu \ll m_n$
+\item $p_n \ll m_n$, $p_p \ll m_mp$.
+\end{itemize}
+
+Si $Q \equiv M_n-M_p$ alors :
+
+Dès lors :
+\begin{equation}
+p_p \cdot p_\nu \simeq E_p E_\nu \simeq M_p E_\nu
+\end{equation}
+
+Et
+\begin{equation}
+p_p \cdot p_e \simeq E_p E_\nu \simeq M_p E_e = M_p E_e
+\end{equation}
+
+
+
+
+\end{document}
