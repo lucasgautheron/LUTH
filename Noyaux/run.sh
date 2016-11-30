@@ -1,3 +1,3 @@
-g++ `root-config --cflags` fill.cpp `root-config --glibs` -lm
+g++ -O3 -std=c++0x `root-config --cflags` interp.cpp `root-config --glibs` -lm -lnse -lgsl
 chmod +x a.out
 ./a.out
