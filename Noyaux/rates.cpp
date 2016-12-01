@@ -101,7 +101,7 @@ double fast_electron_capture(int A, int Z, double T, double mu_e = M_ELECTRON)
     const double Q = 4.6;
     const double dE = 2.5;
     const double chi = (Q-dE)/T;
-    const double eta = chi+M_ELECTRON/T; // m -> mu
+    const double eta = chi+mu_e/T; // m -> mu
 
     double rate = 0.693 * beta/K * pow(T/M_ELECTRON, 5.);
     
