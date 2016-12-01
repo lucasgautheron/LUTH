@@ -5,13 +5,109 @@
 #include <vector>
 #include <array>
 #include <algorithm>
+#include <math.h>
+
+#include <gsl/gsl_sf_fermi_dirac.h>
 
 #include "TF1.h"
 #include "TGraph.h"
 #include "TGraphAsymmErrors.h"
 #include "TCanvas.h"
 
+#define M_ELECTRON 0.511 // MeV
+#define HBARC 197.3269788  // MeV.fm 
+#define FERMI_COUPLING 1.1663787e-11 // MeV^-2
+#define CELERITY 2.99792458e23 // fm/s
+
+#define max(a,b) ((a)>(b)?(a):(b))
+#define min(a,b) ((a)<(b)?(a):(b))
+
 enum { P_TEMPERATURE, P_DENSITY, P_FRACTION };
+
+inline double Np(int Z)
+{
+    return min(8, max(0, Z-20));
+}
+
+
+inline double Nh(int N)
+{
+    return min(6, max(0, 40-N));
+}
+
+double fermi_dirac(double E, double T, double mu)
+{
+    return 1./(exp((E-mu)/T)+1);
+}
+
+/*double electron_capture_rate(int A, int Z, double E)
+{
+    const double Q = 1.29332 + 3;
+    const double Vud = 0.97427;
+    const double gA = 1.24;
+    double rate = 1./M_PI;
+    rate *= Vud * Vud * gA * gA * 2./7.;
+    rate *= Np(Z) * Nh(A-Z);
+    rate *= 1;
+    return rate;
+}
+
+double integrated_electron_capture_rate(int A, int Z, double T, int N = 10000)
+{
+    double Emin = 0, Emax = 100*T;
+
+    double rate = 0;
+    const double dE = (Emax-Emin)/double(N);
+    for(int i = 0; i < N; ++i)
+    {
+        const double E = Emin + (Emax-Emin)*(double(i)+0.5)/double(N);
+        rate += E * E * fermi_dirac(E, T, M_ELECTRON) * electron_capture_rate(A, Z, E) * dE;
+    }
+    return rate;
+}
+*/
+
+// from table or analytical expr. ?
+double nucleus_mass(int A, int Z)
+{
+}
+
+double integrated_electron_capture(int A, int Z, double T, int N = 10000)
+{
+    const double Q = 1.29332 + 3;
+    const double Vud = 0.97427;
+    const double gA = 1.24;
+
+    double rate = 8*CELERITY/7. * gA*gA * Vud*Vud * pow(2*M_PI, -3.) * FERMI_COUPLING*FERMI_COUPLING 
+                  * Np(Z) * Nh(A-Z);
+    
+    double integral = 0;
+    double Emin = M_ELECTRON, Emax = 100*T;
+    const double dE = (Emax-Emin)/double(N);
+    for(int i = 0; i < N; ++i)
+    {
+        const double E = Emin + (Emax-Emin)*(double(i)+0.5)/double(N);
+        integral += E * E * fermi_dirac(E, T, M_ELECTRON) * (E+Q)*(E+Q) * sqrt(1-(M_ELECTRON/(E+Q))*(M_ELECTRON/(E+Q))) * dE;
+    }
+    rate *= integral;
+
+    return rate;
+}
+
+double fast_electron_capture(int A, int Z, double T, double mu_e = M_ELECTRON)
+{
+    const double beta = 4;
+    const double K = 6146;
+    const double Q = 4.6;
+    const double dE = 2.5;
+    const double chi = (Q-dE)/T;
+    const double eta = chi+M_ELECTRON/T; // m -> mu
+
+    double rate = 0.693 * beta/K * pow(T/M_ELECTRON, 5.);
+    
+    rate *= 24*gsl_sf_fermi_dirac_int (4,eta) - 2 * chi * 6*gsl_sf_fermi_dirac_int (3,eta) + chi*chi * 2*gsl_sf_fermi_dirac_int (2, eta);
+    return rate;
+}
 
 struct element
 {
@@ -31,7 +127,7 @@ struct abundance_data
     std::vector<element> elements;
 };
 
-typedef  std::map< std::array<int, 3>, abundance_data *> abundance_array;
+typedef std::map< std::array<int, 3>, abundance_data *> abundance_array;
 
 struct abundance_table
 {
@@ -94,6 +190,8 @@ int read_compo_data(const char *path, abundance_table &table)
         iss >> int_ph;
         iss >> ab->np;
 
+        for(int k = 0; k < 3; ++k) ab->param[k] = table.parameters[k][ab->idx[k]];
+
         while(true)
         {
             element e;
@@ -103,6 +201,7 @@ int read_compo_data(const char *path, abundance_table &table)
 
             nucleus_to_AZ(e.nucleus, e.A, e.Z);
             ab->elements.push_back(e);
+            //printf("%d %d %f %e %e %e\n", e.A, e.Z, ab->param[0], integrated_electron_capture_rate(e.A, e.Z, ab->param[0]), integrated_electron_capture_rate(e.A, e.Z, ab->param[0], 100), integrated_electron_capture_rate(e.A, e.Z, ab->param[0], 10000));
         }
 
         element neutron, proton;
@@ -115,7 +214,7 @@ int read_compo_data(const char *path, abundance_table &table)
         ab->elements.push_back(neutron);
         ab->elements.push_back(proton);
 
-        for(int k = 0; k < 3; ++k) ab->param[k] = table.parameters[k][ab->idx[k]];
+        
 
         std::array<int, 3> conditions = {ab->idx[0], ab->idx[1], ab->idx[2]};
         table.abundances[conditions] = ab;
@@ -191,50 +290,21 @@ int main(int argc, char *argv[])
     abundance_table table;
     read_compo_data("EOS.compo", table);
 
-    int N = 100;
-    double Ymin = 0, Ymax = 0.6;
-    double *x = new double[N], *y = new double[N], *z = new double[N], *exl = new double[N], *eyl = new double[N], *exh = new double[N], *eyh = new double[N];
-    double *cmp = new double[N];
-    
-    const int A = 4;
-    const int Z = 2;
-    const double T = 1.1, nb = 1.08343634e-06;
-    for(int i = 0; i < N; ++i)
+    FILE *fp = fopen("rates.res", "w+");
+    for(auto const& ab : table.abundances)
     {
-        x[i] = Ymin+(Ymax-Ymin)*((double(i)+0.5)/double(N));
-        double params[3] = { T, nb, x[i] };
-        double vlow, vhigh;
-        exl[i] = exh[i] = 0;
-        y[i] = element_abundance_interp(table, A, Z, params, &vlow, &vhigh );
-        eyl[i] = y[i]-vlow;
-        eyh[i] = vhigh-y[i];
-        printf("%e %e %e\n", vlow, y[i], vhigh);
-        z[i] = element_abundance(table, A, Z, T, nb, x[i]);
-        printf("%e %e\n", x[i], y[i]);
-        cmp[i] = NSE(T*11.5942028986, nb*1.67e-24*1e39, x[i], Z, A-Z);
-        printf("%e %e %e\n", T*11.5942028986, nb*1.67e-24*1e39, cmp[i]);
+         std::vector<element> &elements = ab.second->elements;
+         if(ab.second->param[0] < 1 || ab.second->param[0] > 3) continue;
+         double rate = 0, fast_rate = 0;
+         double total_abundance = 0;
+         for(int i = 0; i < elements.size(); ++i)
+         {
+             rate += elements[i].abundance * integrated_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0]);
+             fast_rate += elements[i].abundance * fast_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0]);
+             total_abundance += elements[i].abundance;
+         }
+         fprintf(fp, "%d %d %d %e %e %e %e %e %e %e\n", ab.first[0], ab.first[1], ab.first[2], ab.second->param[0], ab.second->param[1], ab.second->param[2], rate, fast_rate, rate/total_abundance, fast_rate/total_abundance);
     }
-
-    TCanvas *c = new TCanvas("c","data",200, 10, 700, 500);
-    TGraph *gr_interp, *gr_raw, *gr_cmp;
-
-    gr_interp = new TGraphAsymmErrors(N,x,y,exl,exh,eyl,eyh);;
-    gr_interp->SetTitle("interpolation;Y;n(78,28)");
-    gr_interp->SetMarkerStyle(3);
-    gr_interp->SetMarkerSize(0.3);
-    gr_interp->SetMarkerColor(kRed);
-    gr_interp->Draw("APZL");
-
-    gr_raw = new TGraph(N,x,z);
-    gr_raw->Draw("PZsame");
-    gr_raw->SetMarkerColor(kBlue);
-
-    gr_cmp = new TGraph(N,x,cmp);
-    gr_cmp->SetMarkerColor(kGreen);
-    gr_cmp->SetMarkerSize(1);
-    gr_cmp->SetMarkerStyle(3);
-    gr_cmp->Draw("PZsame");
-
-    c->Print("n_78_28.pdf", "pdf");
+    fclose(fp);
     return 0;
 }
