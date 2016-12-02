@@ -14,13 +14,15 @@
 #include "TGraphAsymmErrors.h"
 #include "TCanvas.h"
 
+#define max(a,b) ((a)>(b)?(a):(b))
+#define min(a,b) ((a)<(b)?(a):(b))
+
 #define M_ELECTRON 0.511 // MeV
 #define HBARC 197.3269788  // MeV.fm 
 #define FERMI_COUPLING 1.1663787e-11 // MeV^-2
 #define CELERITY 2.99792458e23 // fm/s
+#define MASS_UNIT 931.4940954
 
-#define max(a,b) ((a)>(b)?(a):(b))
-#define min(a,b) ((a)<(b)?(a):(b))
 
 enum { P_TEMPERATURE, P_DENSITY, P_FRACTION };
 
@@ -67,44 +69,62 @@ double integrated_electron_capture_rate(int A, int Z, double T, int N = 10000)
 }
 */
 
-// from table or analytical expr. ?
+struct nuclear_data
+{
+    int A, Z;
+    double m; // MeV
+
+    nuclear_data() {}
+    nuclear_data(int _A, int _Z, double _m)
+    {
+        A = _A; Z = _Z; m = _m;
+    }
+};
+typedef std::map< std::array<int, 2>, nuclear_data *> nuclear_array;
+
+
+nuclear_array nuclear_table;
+
 double nucleus_mass(int A, int Z)
 {
+    std::array<int, 2> elem = { A, Z };
+    return (nuclear_table.count(elem)) ? nuclear_table[elem]->m : double(A)*MASS_UNIT;
 }
 
-double integrated_electron_capture(int A, int Z, double T, int N = 10000)
+double integrated_electron_capture(int A, int Z, double T, double Q = 1e10)
 {
-    const double Q = 1.29332 + 3;
+    if(Q>1e6) Q = nucleus_mass(A, Z) - nucleus_mass(A, Z-1) + 3;
     const double Vud = 0.97427;
     const double gA = 1.24;
 
-    double rate = 8*CELERITY/7. * gA*gA * Vud*Vud * pow(2*M_PI, -3.) * FERMI_COUPLING*FERMI_COUPLING 
-                  * Np(Z) * Nh(A-Z);
+    double rate = 8*CELERITY/7. * gA*gA * Vud*Vud * pow(2*M_PI, -3.) * FERMI_COUPLING*FERMI_COUPLING * Np(Z) * Nh(A-Z);
     
     double integral = 0;
-    double Emin = M_ELECTRON, Emax = 100*T;
+    const int N = 10000;
+    double Emin = max(0, M_ELECTRON-Q), Emax = 100*T;
     const double dE = (Emax-Emin)/double(N);
     for(int i = 0; i < N; ++i)
     {
         const double E = Emin + (Emax-Emin)*(double(i)+0.5)/double(N);
-        integral += E * E * fermi_dirac(E, T, M_ELECTRON) * (E+Q)*(E+Q) * sqrt(1-(M_ELECTRON/(E+Q))*(M_ELECTRON/(E+Q))) * dE;
+        integral += E * E * fermi_dirac(E, T, 0) * (E+Q)*(E+Q) * sqrt(1-(M_ELECTRON/(E+Q))*(M_ELECTRON/(E+Q))) * dE;
     }
     rate *= integral;
 
     return rate;
 }
 
-double fast_electron_capture(int A, int Z, double T, double mu_e = M_ELECTRON)
+double fast_electron_capture(int A, int Z, double T, double Q = 1e10, double mu_e = M_ELECTRON)
 {
     const double beta = 4;
     const double K = 6146;
-    const double Q = 4.6;
+    if(Q>1e6) Q = /*4.6*/nucleus_mass(A, Z) - nucleus_mass(A, Z-1);
     const double dE = 2.5;
     const double chi = (Q-dE)/T;
     const double eta = chi+mu_e/T; // m -> mu
 
     double rate = 0.693 * beta/K * pow(T/M_ELECTRON, 5.);
     
+    // gsl fermi integrals include a normalization factor 1/Gamma(j) hence the multiplication by (j-1)!
     rate *= 24*gsl_sf_fermi_dirac_int (4,eta) - 2 * chi * 6*gsl_sf_fermi_dirac_int (3,eta) + chi*chi * 2*gsl_sf_fermi_dirac_int (2, eta);
     return rate;
 }
@@ -127,6 +147,7 @@ struct abundance_data
     std::vector<element> elements;
 };
 
+
 typedef std::map< std::array<int, 3>, abundance_data *> abundance_array;
 
 struct abundance_table
@@ -145,6 +166,30 @@ int nucleus_to_AZ(int nucleus, int &A, int &Z)
 {
     A = nucleus/1000;
     Z = nucleus%1000;
+}
+
+int read_masses(const char *path, nuclear_array &table)
+{
+    std::ifstream infile(path);
+    double val;
+    int count = 0;
+    std::string line;
+    std::istringstream iss;
+    while (std::getline(infile, line)) {
+        iss.clear();
+        iss.str(line);
+        const char *str = line.c_str();
+        int Z = atoi(str+11);
+        int A = atoi(str+15);
+        int base = atoi(str+96);
+        double m = double(base) + 1e-6 * strtod(str+100, NULL);
+        m *= MASS_UNIT;
+        printf("%d %d %e\n", Z, A, m);
+        std::array<int, 2> elem = { A, Z };
+        table[elem] = new nuclear_data(A, Z, m);
+        ++count;
+    }
+    return count;
 }
 
 int read_index(const char *path, std::vector<double> &index)
@@ -285,12 +330,30 @@ double element_abundance_interp(abundance_table &table, int A, int Z, double par
     return v;
 }
 
+double electron_potential(double nb, double Ye)
+{
+    return M_ELECTRON*sqrt(1+pow(nb*Ye*1.143e9, 2./3.));
+}
+
 int main(int argc, char *argv[])
 {
     abundance_table table;
     read_compo_data("EOS.compo", table);
+    
+    read_masses("mass.mas12", nuclear_table);
 
     FILE *fp = fopen("rates.res", "w+");
+
+    const double Q[2] = { -18, 16 };
+    for(int i = 0; i < 1000; ++i)
+    {
+        double _Q = Q[0]+(Q[1]-Q[0])*double(i)/1000.;
+        double mu_e[2] = { electron_potential(1.32e-6, 0.447), electron_potential(1.12e-4, 0.361) };
+        fprintf(fp, "%f %e %e %e %e\n", _Q, integrated_electron_capture(39, 21, 0.68, _Q), integrated_electron_capture(39, 21, 1.3, _Q), fast_electron_capture(39, 21, 0.68, _Q, mu_e[0]), fast_electron_capture(39, 21, 1.3, _Q, mu_e[1]));
+    }
+    fclose(fp);
+
+    fp = fopen("total_rates.res", "w+");
     for(auto const& ab : table.abundances)
     {
          std::vector<element> &elements = ab.second->elements;
@@ -300,7 +363,8 @@ int main(int argc, char *argv[])
          for(int i = 0; i < elements.size(); ++i)
          {
              rate += elements[i].abundance * integrated_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0]);
-             fast_rate += elements[i].abundance * fast_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0]);
+             double mu_e = electron_potential(ab.second->param[1], ab.second->param[2]);
+             fast_rate += elements[i].abundance * fast_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0], 1e10, mu_e);
              total_abundance += elements[i].abundance;
          }
          fprintf(fp, "%d %d %d %e %e %e %e %e %e %e\n", ab.first[0], ab.first[1], ab.first[2], ab.second->param[0], ab.second->param[1], ab.second->param[2], rate, fast_rate, rate/total_abundance, fast_rate/total_abundance);
