@@ -26,13 +26,13 @@
 
 enum { P_TEMPERATURE, P_DENSITY, P_FRACTION };
 
-inline double Np(int Z)
+inline int Np(int Z)
 {
     return min(8, max(0, Z-20));
 }
 
 
-inline double Nh(int N)
+inline int Nh(int N)
 {
     return min(6, max(0, 40-N));
 }
@@ -107,11 +107,13 @@ double integrated_electron_capture(int A, int Z, double T, double Q = 1e10, doub
     const double Vud = 0.97427;
     const double gA = 1.24;
 
-    double rate = 8*CELERITY/7. * gA*gA * Vud*Vud * pow(2*M_PI, -3.) * FERMI_COUPLING*FERMI_COUPLING * Np(Z) * Nh(A-Z);
+    int shell_factor = Np(Z) * Nh(A-Z);
+    if(!shell_factor) return 0;
+    double rate = 8*CELERITY/7. * gA*gA * Vud*Vud * pow(2*M_PI, -3.) * FERMI_COUPLING*FERMI_COUPLING * shell_factor;
     
     double integral = 0;
-    const int N = 10000;
-    double Emin = max(0, M_ELECTRON-Q), Emax = 100*T;
+    const int N = 1000;
+    double Emin = max(0, M_ELECTRON-Q), Emax = 30*T;
     const double dE = (Emax-Emin)/double(N);
     for(int i = 0; i < N; ++i)
     {
@@ -233,6 +235,47 @@ int read_thermo_states(const char *path, std::vector<thermo_state *> &thermo_sta
         iss >> ts->lambda;
         ++count;
         thermo_states.push_back(ts);
+    }
+    return count;
+}
+
+struct nucleus_capture_data
+{
+    int A, Z;
+    double Q;
+    double T;
+    double nb_Y; // nb*Y
+    double mu_e;
+    double lambda;
+};
+
+std::vector<nucleus_capture_data *> nucleus_capture;
+
+int read_nucleus_capture(const char *path, std::vector<nucleus_capture_data *> &nucleus_capture)
+{
+    std::ifstream infile(path);
+    double val;
+    int count = 0;
+    std::string line;
+    std::istringstream iss;
+    while (std::getline(infile, line)) {
+        iss.clear();
+        iss.str(line);
+        nucleus_capture_data *nc = new nucleus_capture_data();
+        iss >> nc->A;
+        iss >> nc->Z;
+        iss >> nc->Q;
+        iss >> nc->T;
+        nc->T /= 11.6594202899;
+        iss >> nc->nb_Y;
+        nc->nb_Y = pow(10., nc->nb_Y)/1.674e15;
+        iss >> nc->mu_e;
+        nc->mu_e += M_ELECTRON;
+        for(int k = 0; k < 1; ++k) iss >> val; 
+        iss >> nc->lambda;
+        nc->lambda = pow(10., nc->lambda);
+        ++count;
+        nucleus_capture.push_back(nc);
     }
     return count;
 }
@@ -394,12 +437,29 @@ int main(int argc, char *argv[])
     // read CCSN trajectories
     read_thermo_states("trajectory_15", thermo_states[0]);
     read_thermo_states("trajectory_25", thermo_states[1]);
+
+    // read single rates
+    read_nucleus_capture("single_rates", nucleus_capture);
     
     FILE *fp = fopen("potential.res", "w+");
     for(int i = 0; i < 1000; ++i)
     {
         double n = pow(10., -8+7.*double(i)/1000.);
         fprintf(fp, "%e %e\n", n*1.674e-24*1e39, electron_potential(n, 1.));
+    }
+    fclose(fp);
+
+    fp = fopen("single_rates.res", "w+");
+    for(int i = 0; i < nucleus_capture.size(); ++i)
+    {
+        nucleus_capture_data *nc = nucleus_capture[i];
+        if(nc->A < 2) continue;
+        if(nc->T < 0.1) continue;
+        if(nc->nb_Y < 1e-7) continue;
+
+        fprintf(fp, "%d %d %e %e %e %e %e %e\n", nc->A, nc->Z, nc->T, nc->nb_Y, nc->lambda,
+		fast_electron_capture(nc->A, nc->Z, nc->T, 1e10, electron_potential(nc->nb_Y, nc->mu_e)), fast_electron_capture(nc->A, nc->Z, nc->T, 1e10, electron_potential(nc->nb_Y, 1.)),
+		integrated_electron_capture(nc->A, nc->Z, nc->T, 1e10, 0));
     }
     fclose(fp);
 
@@ -431,7 +491,7 @@ int main(int argc, char *argv[])
 		    double abundance = element_abundance_interp(table, A, Z, conditions, &vl, &vh);
 		    total_abundance += abundance;
 		    abundance_error += (vh-vl)*(vh-vl);
-		    //rate += abundance * integrated_electron_capture(A, Z, ts->T, 1e10, 0);
+		    rate += abundance * integrated_electron_capture(A, Z, ts->T, 1e10, 0);
 		    fast_rate += abundance * fast_electron_capture(A, Z, ts->T, 1e10, mu_e);
 		    fast_rate_corr += abundance * fast_electron_capture(A, Z, ts->T, 1e10, ts->mu_e);
 		}
