@@ -21,7 +21,7 @@
 #define HBARC 197.3269788  // MeV.fm 
 #define FERMI_COUPLING 1.1663787e-11 // MeV^-2
 #define CELERITY 2.99792458e23 // fm/s
-#define MASS_UNIT 931.4940954
+#define MASS_UNIT 931.4940954 // MeV
 
 
 enum { P_TEMPERATURE, P_DENSITY, P_FRACTION };
@@ -73,11 +73,12 @@ struct nuclear_data
 {
     int A, Z;
     double m; // MeV
+    double beta_q; // beta decay Q
 
     nuclear_data() {}
-    nuclear_data(int _A, int _Z, double _m)
+    nuclear_data(int _A, int _Z, double _m, double _bq)
     {
-        A = _A; Z = _Z; m = _m;
+        A = _A; Z = _Z; m = _m; beta_q = _bq;
     }
 };
 typedef std::map< std::array<int, 2>, nuclear_data *> nuclear_array;
@@ -85,15 +86,24 @@ typedef std::map< std::array<int, 2>, nuclear_data *> nuclear_array;
 
 nuclear_array nuclear_table;
 
-double nucleus_mass(int A, int Z)
+inline double nucleus_mass(int A, int Z)
 {
     std::array<int, 2> elem = { A, Z };
     return (nuclear_table.count(elem)) ? nuclear_table[elem]->m : double(A)*MASS_UNIT;
 }
 
-double integrated_electron_capture(int A, int Z, double T, double Q = 1e10)
+inline double beta_decay_Q(int A, int Z)
 {
-    if(Q>1e6) Q = nucleus_mass(A, Z) - nucleus_mass(A, Z-1) + 3;
+    std::array<int, 2> mother = { A, Z }, daughter = { A, Z-1 };
+    if(!nuclear_table.count(mother)) return -1e10;
+    if(abs(nuclear_table[mother]->beta_q) >= 0.0001) return nuclear_table[mother]->beta_q;
+    if(!nuclear_table.count(daughter)) return -1e10;
+    return nuclear_table[mother]->m - nuclear_table[daughter]->m;
+}
+
+double integrated_electron_capture(int A, int Z, double T, double Q = 1e10, double mu = 0)
+{
+    if(Q>1e6) Q = beta_decay_Q(A, Z) + 3;
     const double Vud = 0.97427;
     const double gA = 1.24;
 
@@ -106,7 +116,7 @@ double integrated_electron_capture(int A, int Z, double T, double Q = 1e10)
     for(int i = 0; i < N; ++i)
     {
         const double E = Emin + (Emax-Emin)*(double(i)+0.5)/double(N);
-        integral += E * E * fermi_dirac(E, T, 0) * (E+Q)*(E+Q) * sqrt(1-(M_ELECTRON/(E+Q))*(M_ELECTRON/(E+Q))) * dE;
+        integral += E * E * fermi_dirac(E, T, mu) * (E+Q)*(E+Q) * sqrt(1-(M_ELECTRON/(E+Q))*(M_ELECTRON/(E+Q))) * dE;
     }
     rate *= integral;
 
@@ -115,12 +125,13 @@ double integrated_electron_capture(int A, int Z, double T, double Q = 1e10)
 
 double fast_electron_capture(int A, int Z, double T, double Q = 1e10, double mu_e = M_ELECTRON)
 {
-    const double beta = 4;
+    const double beta = 4.6;
     const double K = 6146;
-    if(Q>1e6) Q = /*4.6*/nucleus_mass(A, Z) - nucleus_mass(A, Z-1);
+    if(Q>1e6) Q = beta_decay_Q(A, Z);
+    if(Q<-1e6) return 0;
     const double dE = 2.5;
     const double chi = (Q-dE)/T;
-    const double eta = chi+mu_e/T; // m -> mu
+    const double eta = chi+mu_e/T;
 
     double rate = 0.693 * beta/K * pow(T/M_ELECTRON, 5.);
     
@@ -162,7 +173,7 @@ struct index_entry
     double val;
 };
 
-int nucleus_to_AZ(int nucleus, int &A, int &Z)
+inline int nucleus_to_AZ(int nucleus, int &A, int &Z)
 {
     A = nucleus/1000;
     Z = nucleus%1000;
@@ -184,10 +195,44 @@ int read_masses(const char *path, nuclear_array &table)
         int base = atoi(str+96);
         double m = double(base) + 1e-6 * strtod(str+100, NULL);
         m *= MASS_UNIT;
-        printf("%d %d %e\n", Z, A, m);
+        double beta_q = strtod(str+79, NULL)/1e3;
+        printf("%d %d %e %.3f\n", Z, A, m, beta_q);
         std::array<int, 2> elem = { A, Z };
-        table[elem] = new nuclear_data(A, Z, m);
+        table[elem] = new nuclear_data(A, Z, m, beta_q);
         ++count;
+    }
+    return count;
+}
+
+struct thermo_state
+{
+    double T, nb, Y, mu_e, lambda;
+
+};
+
+std::vector<thermo_state *> thermo_states[2];
+
+int read_thermo_states(const char *path, std::vector<thermo_state *> &thermo_states)
+{
+    std::ifstream infile(path);
+    double val;
+    int count = 0;
+    std::string line;
+    std::istringstream iss;
+    while (std::getline(infile, line)) {
+        iss.clear();
+        iss.str(line);
+        thermo_state *ts = new thermo_state();
+        iss >> ts->nb;
+        ts->nb /= (1.674e15);
+        iss >> ts->Y;
+        iss >> val;
+        iss >> ts->T;
+        iss >> ts->mu_e;
+        for(int k = 0; k < 8; ++k) iss >> val; 
+        iss >> ts->lambda;
+        ++count;
+        thermo_states.push_back(ts);
     }
     return count;
 }
@@ -285,11 +330,12 @@ double element_abundance_interp(abundance_table &table, int A, int Z, double par
     double dv[3], dx[3], x[3];
 
     abundance_data *ptr = table.abundances[lower];
-    if(!ptr) return 0;
-    abundance_data ab = *ptr;
-
     double v = 0;
-    for(int i = 0; i < ab.elements.size(); ++i) if(ab.elements[i].A == A && ab.elements[i].Z == Z) { v = ab.elements[i].abundance; break; }
+    if(ptr)
+    {
+        abundance_data ab = *ptr;
+        for(int i = 0; i < ab.elements.size(); ++i) if(ab.elements[i].A == A && ab.elements[i].Z == Z) { v = ab.elements[i].abundance; break; }
+    }
 
     for(int k = 0; k < 3; ++k)
     {
@@ -332,43 +378,85 @@ double element_abundance_interp(abundance_table &table, int A, int Z, double par
 
 double electron_potential(double nb, double Ye)
 {
-    return M_ELECTRON*sqrt(1+pow(nb*Ye*1.143e9, 2./3.));
+    //return M_ELECTRON*sqrt(1+pow(nb*Ye*1.143e9, 2./3.));
+    return M_ELECTRON*sqrt(1+pow(nb*Ye*1.705199692e9, 2./3.));
 }
 
 int main(int argc, char *argv[])
 {
+    // read abundance table
     abundance_table table;
     read_compo_data("EOS.compo", table);
     
+    // read mass table (for Q values)
     read_masses("mass.mas12", nuclear_table);
 
-    FILE *fp = fopen("rates.res", "w+");
+    // read CCSN trajectories
+    read_thermo_states("trajectory_15", thermo_states[0]);
+    read_thermo_states("trajectory_25", thermo_states[1]);
+    
+    FILE *fp = fopen("potential.res", "w+");
+    for(int i = 0; i < 1000; ++i)
+    {
+        double n = pow(10., -8+7.*double(i)/1000.);
+        fprintf(fp, "%e %e\n", n*1.674e-24*1e39, electron_potential(n, 1.));
+    }
+    fclose(fp);
+
+    fp = fopen("rates.res", "w+");
 
     const double Q[2] = { -18, 16 };
     for(int i = 0; i < 1000; ++i)
     {
         double _Q = Q[0]+(Q[1]-Q[0])*double(i)/1000.;
         double mu_e[2] = { electron_potential(1.32e-6, 0.447), electron_potential(1.12e-4, 0.361) };
-        fprintf(fp, "%f %e %e %e %e\n", _Q, integrated_electron_capture(39, 21, 0.68, _Q), integrated_electron_capture(39, 21, 1.3, _Q), fast_electron_capture(39, 21, 0.68, _Q, mu_e[0]), fast_electron_capture(39, 21, 1.3, _Q, mu_e[1]));
+        fprintf(fp, "%f %e %e %e %e\n", _Q, integrated_electron_capture(39, 21, 0.68, _Q, 0), integrated_electron_capture(39, 21, 1.3, _Q, 0), fast_electron_capture(39, 21, 0.68, _Q, mu_e[0]), fast_electron_capture(39, 21, 1.3, _Q, mu_e[1]));
     }
     fclose(fp);
 
-    fp = fopen("total_rates.res", "w+");
-    for(auto const& ab : table.abundances)
+    for(int k = 0; k < 2; ++k) {
+            fp = fopen(k == 0 ? "total_rates_15.res" : "total_rates_25.res", "w+");
+	    for(int i = 0; i < thermo_states[k].size(); ++i)
+	    {
+		thermo_state *ts = thermo_states[k][i];
+		double rate = 0, fast_rate = 0, fast_rate_corr = 0;
+		double mu_e = electron_potential(ts->nb, ts->Y);
+		double total_abundance = 0, abundance_error = 0;
+		double conditions[3] = {ts->T, ts->nb, ts->Y};
+
+		for(int A = 2; A < 250; ++A) for(int Z = 0; Z <= A; ++Z) if(A >= 20)
+		{
+		    //if(abs(A-Z) > 50) continue;
+		    double vl = 0, vh = 0;
+		    double abundance = element_abundance_interp(table, A, Z, conditions, &vl, &vh);
+		    total_abundance += abundance;
+		    abundance_error += (vh-vl)*(vh-vl);
+		    //rate += abundance * integrated_electron_capture(A, Z, ts->T, 1e10, 0);
+		    fast_rate += abundance * fast_electron_capture(A, Z, ts->T, 1e10, mu_e);
+		    fast_rate_corr += abundance * fast_electron_capture(A, Z, ts->T, 1e10, ts->mu_e);
+		}
+	printf("%e %e %e %e %e %e %e %e\n", ts->T, ts->nb, ts->Y, ts->lambda, rate, fast_rate, rate/total_abundance, fast_rate/total_abundance);
+		fprintf(fp, "%e %e %e %e %e %e %e %e %e\n", ts->T, ts->nb, ts->Y, ts->lambda, rate, fast_rate, rate/total_abundance, fast_rate/total_abundance, fast_rate * sqrt(abundance_error)/total_abundance / total_abundance);
+	    }
+        fclose(fp);
+    }
+    /*for(auto const& ab : table.abundances)
     {
          std::vector<element> &elements = ab.second->elements;
          if(ab.second->param[0] < 1 || ab.second->param[0] > 3) continue;
+         if(ab.second->param[1] < 1e-6) continue;
+         if(ab.second->param[2] < 0.25 || ab.second->param[2] > 0.5) continue;
          double rate = 0, fast_rate = 0;
          double total_abundance = 0;
          for(int i = 0; i < elements.size(); ++i)
          {
-             rate += elements[i].abundance * integrated_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0]);
              double mu_e = electron_potential(ab.second->param[1], ab.second->param[2]);
+             rate += elements[i].abundance * integrated_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0], 1e10, 0);
              fast_rate += elements[i].abundance * fast_electron_capture(elements[i].A, elements[i].Z, ab.second->param[0], 1e10, mu_e);
              total_abundance += elements[i].abundance;
          }
          fprintf(fp, "%d %d %d %e %e %e %e %e %e %e\n", ab.first[0], ab.first[1], ab.first[2], ab.second->param[0], ab.second->param[1], ab.second->param[2], rate, fast_rate, rate/total_abundance, fast_rate/total_abundance);
     }
-    fclose(fp);
+    fclose(fp);*/
     return 0;
 }
